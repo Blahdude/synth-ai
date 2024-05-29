@@ -1,38 +1,27 @@
 .App {
-  text-align: center;
+  @apply bg-black
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.synth-body {
+  @apply border-solid border-2 w-48 border-black rounded-lg bg-gray-300 drop-shadow-2xl m-auto
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.synth-module {
+  @apply border-solid border-2 w-48 border-black rounded-lg bg-gray-300 px-3 py-2 drop-shadow-2xl
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.legend-title {
+  @apply font-semibold
 }
 
-.App-link {
-  color: #61dafb;
+.keyboard-container {
+  @apply relative flex 
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.white-key {
+  @apply bg-white px-4 py-10 border-solid border-black border-2 active:bg-slate-400
+}
+
+.black-key {
+  @apply bg-black text-white absolute w-8 h-16 active:bg-slate-700
 }
