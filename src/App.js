@@ -5,6 +5,8 @@ import { OscSelector } from './Components/OscSelector';
 import { CircleSlider } from "react-circle-slider"
 import * as Tone from "tone";
 import { KeyBoard } from './Components/KeyBoard';
+import { Sequencer } from './Components/Sequencer';
+import { Sequence } from 'tone';
 
 function App() {
 
@@ -62,6 +64,8 @@ function App() {
           <div className='px-72'>
             empty space!
           </div>
+
+        <Sequencer />
 
         {/* KEYBOARD */}
         <KeyBoard handleClick={handleClick} handleRelease={handleRelease}/>
