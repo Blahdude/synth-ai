@@ -1,33 +1,4 @@
 
-.synth-body {
-  @apply border-solid border-2 w-48 border-black rounded-lg bg-gray-300 drop-shadow-2xl m-auto flex flex-col p-3
-}
-
-.synth-module-container {
-  @apply flex border-solid border-2 w-48 border-black rounded-lg bg-gray-300 px-3 py-2 drop-shadow-2xl
-}
-
-.synth-module {
-  @apply border-solid border-2 w-48 border-black rounded-lg bg-gray-300 px-3 py-2 drop-shadow-2xl
-}
-
-
-.legend-title {
-  @apply font-semibold
-}
-
-.keyboard-container {
-  @apply relative flex 
-}
-
-.white-key {
-  @apply bg-white px-4 py-10 border-solid border-black border-2 active:bg-slate-400
-}
-
-.black-key {
-  @apply bg-black text-white absolute w-8 h-16 active:bg-slate-700
-}
-
 /* main body of led */
 .led {
   width: 30px; /* original size was 80px was scalled down by 0.375 */

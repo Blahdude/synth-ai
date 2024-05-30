@@ -1,0 +1,11 @@
+.keyboard-container {
+  @apply relative flex 
+}
+
+.white-key {
+  @apply bg-white px-4 py-10 border-solid border-black border-2 active:bg-slate-400
+}
+
+.black-key {
+  @apply bg-black text-white absolute w-8 h-16 active:bg-slate-700
+}

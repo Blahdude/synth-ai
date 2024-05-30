@@ -1,5 +1,5 @@
 import logo from './logo.svg';
-import './App.css';
+import './Styles/App.css';
 import {useEffect, useRef, useState} from 'react'
 import { OscSelector } from './Components/OscSelector';
 import { CircleSlider } from "react-circle-slider"
@@ -11,8 +11,11 @@ import { Sequence } from 'tone';
 function App() {
 
   // hooks
-  const [oscWave, setOscWave] = useState("sawtooth")
+  const [oscWave, setOscWave] = useState("sine")
   const [volume , setVolume] = useState(-12)
+  // sequence hooks
+  const [ledState, setLedState] = useState("led led-red")
+  const [sequenceRecording, setSequenceRecording] = useState(false)
   const [sequence , setSequence] = useState([])
 
   const synth = new Tone.PolySynth(Tone.Synth, {
@@ -25,7 +28,12 @@ function App() {
   synth.connect(masterVolume)
 
   const handleClick = (event) => {
-    synth.triggerAttack(event.target.value)
+    if (sequenceRecording) {
+      setSequence(prevSequence => ([...prevSequence, event.target.value]));
+    }
+    else {
+      synth.triggerAttack(event.target.value)
+    }
   }
   
   const handleRelease = (event) => {
@@ -39,6 +47,25 @@ function App() {
   const changeWave = (event) => {
     setOscWave(event.target.value)
   }
+
+  const handleRecClick = () => {
+    setLedState(prevLedState => prevLedState === "led led-red" ? "led led-red-on" : "led led-red")
+    setSequenceRecording(prevSequenceRecording => !prevSequenceRecording)
+
+    // if turing rec on set init sequence to empty array
+    if (sequenceRecording == true) {
+      setSequence([])
+    }
+  }
+
+  const handlePlayClick = () => {
+    const seq = new Tone.Sequence((time, note) => {
+      synth.triggerAttackRelease(note, 0.1, time);
+      // subdivisions are given as subarrays
+    }, sequence).start(0);
+    Tone.Transport.start();
+  }
+
 
   return (
     <div className="App">
@@ -65,7 +92,7 @@ function App() {
             empty space!
           </div>
 
-        <Sequencer />
+        <Sequencer ledState={ledState} handleRecClick={handleRecClick} handlePlayClick={handlePlayClick}/>
 
         {/* KEYBOARD */}
         <KeyBoard handleClick={handleClick} handleRelease={handleRelease}/>
