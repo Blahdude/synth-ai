@@ -48,14 +48,18 @@ function App() {
     setOscWave(event.target.value)
   }
 
+  // handle click of record sequence button 
+  // change sequenceRecording false/true
+  // if the reccoring button was untoggled then now toggled, reset the sequence
   const handleRecClick = () => {
-    setLedState(prevLedState => prevLedState === "led led-red" ? "led led-red-on" : "led led-red")
-    setSequenceRecording(prevSequenceRecording => !prevSequenceRecording)
-
     // if turing rec on set init sequence to empty array
-    if (sequenceRecording == true) {
+    if (sequenceRecording == false) {
       setSequence([])
     }
+    // change led on or off
+    setLedState(prevLedState => prevLedState === "led led-red" ? "led led-red-on" : "led led-red")
+    // change true/false hook
+    setSequenceRecording(prevSequenceRecording => !prevSequenceRecording)
   }
 
   const handlePlayClick = () => {
