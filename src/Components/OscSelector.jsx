@@ -10,15 +10,15 @@ export const OscSelector = (props) => {
       <div className="flex flex-col">
         <input 
           type="radio" // sets to radio type button
-          id="sawtooth" // id of sawtooth so i can connect htmlFor
-          name="wave" // name so i can select value
+          id={`sawtooth${props.oscNum}`} // unique id
+          name={`wave${props.oscNum}`} // unique name
           value="sawtooth" // value to change the state
           onChange={props.handleClick}
           className="hidden peer" // hides button and sets it as a peer
           checked={props.oscWave === "sawtooth"} // check to see if the value is currently checked 
         ></input>
         <label 
-          htmlFor="sawtooth" 
+          htmlFor={`sawtooth${props.oscNum}`} 
           className={`${props.oscWave === 'sawtooth' ? 'bg-red-700' : 'bg-red-500'} px-4 rounded-md text-white transition-all text-center mb-1 cursor-pointer`}>
           Sawtooth 〽️
         </label>
@@ -26,15 +26,15 @@ export const OscSelector = (props) => {
 
         <input 
           type="radio"
-          id="sine"
-          name="wave"
+          id={`sine${props.oscNum}`} // unique id
+          name={`wave${props.oscNum}`} // unique name
           value="sine"
           onChange={props.handleClick}
           checked={props.oscWave === "sine"}
           className="hidden peer"
         ></input>
         <label 
-          htmlFor="sine" 
+          htmlFor={`sine${props.oscNum}`} 
           className={`${props.oscWave === 'sine' ? 'bg-red-700' : 'bg-red-500'} px-4 rounded-md text-white transition-all text-center mb-1 cursor-pointer`}>
           Sine ∿
         </label>
@@ -43,15 +43,15 @@ export const OscSelector = (props) => {
 
         <input 
           type="radio"
-          id="square"
-          name="wave"
+          id={`square${props.oscNum}`} // unique id
+          name={`wave${props.oscNum}`} // unique name
           value="square"
           onChange={props.handleClick}
           checked={props.oscWave === "square"}
           className="hidden peer"
         ></input>
         <label 
-          htmlFor="square" 
+          htmlFor={`square${props.oscNum}`} 
           className={`${props.oscWave === 'square' ? 'bg-red-700' : 'bg-red-500'} px-4 rounded-md text-white transition-all text-center mb-1 cursor-pointer`}>
           Square _⊓_
         </label>

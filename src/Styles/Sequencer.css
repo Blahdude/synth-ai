@@ -42,4 +42,6 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4), 0 2px 1px rgba(0, 0, 0, 0.08), 0 0 30px rgb(253, 26, 10) 0 0 5px 5px rgba(255, 255, 255, 1);
 }
 
-
+.sequencer-button {
+  @apply bg-gray-400 rounded-md px-2 border-solid border-black border-2 ml-3 active:bg-red-400
+}

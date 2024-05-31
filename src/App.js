@@ -11,7 +11,8 @@ import { Sequence } from 'tone';
 function App() {
 
   // hooks
-  const [oscWave, setOscWave] = useState("sine")
+  const [osc1Wave, setOsc1Wave] = useState("sine")
+  const [osc2Wave, setOsc2Wave] = useState("sine")
   const [volume , setVolume] = useState(-12)
   // sequence hooks
   const [ledState, setLedState] = useState("led led-red")
@@ -20,7 +21,7 @@ function App() {
 
   const synth = new Tone.PolySynth(Tone.Synth, {
     oscillator: {
-      type: oscWave,
+      type: osc1Wave,
     }
   })
 
@@ -44,8 +45,12 @@ function App() {
     setVolume(event)
   }
 
-  const changeWave = (event) => {
-    setOscWave(event.target.value)
+  const changeOsc1Wave = (event) => {
+    setOsc1Wave(event.target.value)
+  }
+
+  const changeOsc2Wave = (event) => {
+    setOsc2Wave(event.target.value)
   }
 
   // handle click of record sequence button 
@@ -70,7 +75,6 @@ function App() {
     Tone.Transport.start();
   }
 
-
   return (
     <div className="App">
       {/* SYNTH BODY */}
@@ -79,7 +83,10 @@ function App() {
 
         {/* container of osc and volume */}
         <div className='flex'>
-          <OscSelector oscNum={1} handleClick={changeWave} oscWave={oscWave}/>
+          <div>
+            <OscSelector oscNum={1} handleClick={changeOsc1Wave} oscWave={osc1Wave}/>
+            <OscSelector oscNum={2} handleClick={changeOsc2Wave} oscWave={osc2Wave}/>
+          </div>
 
           {/* VOLUME MODULE */}
           <fieldset className='synth-module'>

@@ -13,8 +13,8 @@ export const Sequencer = (props) => {
     <div className="flex mb-1">
       <div className={props.ledState}>
       </div>
-      <button onClick={props.handleRecClick}>Rec</button>
-      <button className="ml-3" onClick={props.handlePlayClick}>Play</button>
+      <button className='sequencer-button' onClick={props.handleRecClick}>Rec</button>
+      <button className="sequencer-button" onClick={props.handlePlayClick}>Play</button>
     </div>
   )
 }
