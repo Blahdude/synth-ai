@@ -13,7 +13,7 @@ function App() {
   // hooks
   const [osc1Wave, setOsc1Wave] = useState("sine")
   const [osc2Wave, setOsc2Wave] = useState("sine")
-  const [volume , setVolume] = useState(-12)
+  const [volume , setVolume] = useState({volume1: -12, volume2: -12})
   // sequence hooks
   const [ledState, setLedState] = useState("led led-red")
   const [sequenceRecording, setSequenceRecording] = useState(false)
@@ -25,8 +25,17 @@ function App() {
     }
   })
 
-  const masterVolume = new Tone.Volume(volume).toDestination()
-  synth.connect(masterVolume)
+  const synth2 = new Tone.PolySynth(Tone.Synth ,{
+    oscillator: {
+      type: osc2Wave
+    }
+  })
+
+  // connect volume for indavidual oscilators 
+  const osc1Volume = new Tone.Volume(volume.volume1).toDestination()
+  const osc2Volume = new Tone.Volume(volume.volume2).toDestination()
+  synth.connect(osc1Volume)
+  synth2.connect(osc2Volume)
 
   const handleClick = (event) => {
     if (sequenceRecording) {
@@ -34,17 +43,34 @@ function App() {
     }
     else {
       synth.triggerAttack(event.target.value)
+      synth2.triggerAttack(event.target.value)
     }
   }
   
   const handleRelease = (event) => {
     synth.triggerRelease(event.target.value)
+    synth2.triggerRelease(event.target.value)
   }
 
-  const changeVolume = (event) => {
-    setVolume(event)
+  // annoyingly need two of these since the circle slider has no id to distinguish the difference between multiple sliders
+  const changeVolume1 = (event) => {
+    setVolume(prevVolume =>(
+      {
+        ...prevVolume,
+        volume1: event
+      }
+    ))
+  }
+  const changeVolume2 = (event) => {
+    setVolume(prevVolume =>(
+      {
+        ...prevVolume,
+        volume2: event
+      }
+    ))
   }
 
+  // you should merge these into one function and keep the osc waves in one object in useState
   const changeOsc1Wave = (event) => {
     setOsc1Wave(event.target.value)
   }
@@ -91,7 +117,10 @@ function App() {
           {/* VOLUME MODULE */}
           <fieldset className='synth-module'>
             <legend className='font-semibold'>Volume</legend>
-            <CircleSlider max={30} min={-50} showTooltip={true} value={volume} onChange={changeVolume} size={100} knobRadius={11} circleWidth={3} progressWidth={5}/>
+            {/* volume 1 */}
+            <CircleSlider max={30} min={-50} showTooltip={true} value={volume.volume1} onChange={changeVolume1} size={100} knobRadius={11} circleWidth={3} progressWidth={5}/>
+            {/* volume 2 */}
+            <CircleSlider max={30} min={-50} showTooltip={true} value={volume.volume2} onChange={changeVolume2} size={100} knobRadius={11} circleWidth={3} progressWidth={5}/>
           </fieldset>
 
         {/* end osc and volume */}
