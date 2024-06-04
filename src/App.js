@@ -3,6 +3,7 @@ import './Styles/App.css';
 import {useEffect, useRef, useState} from 'react'
 import { OscSelector } from './Components/OscSelector';
 import { CircleSlider } from "react-circle-slider"
+// import { KnobHeadless } from 'react-knob-headless';
 import * as Tone from "tone";
 import { KeyBoard } from './Components/KeyBoard';
 import { Sequencer } from './Components/Sequencer';
@@ -14,40 +15,57 @@ function App() {
   const [osc1Wave, setOsc1Wave] = useState("sine")
   const [osc2Wave, setOsc2Wave] = useState("sine")
   const [volume , setVolume] = useState({volume1: -12, volume2: -12})
+  // envelope
+  const [ampEnvState, setAmpEnvState] = useState({attack: 100, decay: 0.2, sustain: 0.5, release: 0.8})
+  const [ampEnv, setAmpEnv] = useState(new Tone.Envelope({
+    attack: ampEnvState.attack,
+    decay: ampEnvState.decay,
+    sustain: ampEnvState.sustain,
+    release: ampEnvState.release
+  }))
   // sequence hooks
   const [ledState, setLedState] = useState("led led-red")
   const [sequenceRecording, setSequenceRecording] = useState(false)
   const [sequence , setSequence] = useState([])
 
+  // oscillator 1
   const synth = new Tone.PolySynth(Tone.Synth, {
     oscillator: {
       type: osc1Wave,
     }
   })
-
+  // oscillator 2
   const synth2 = new Tone.PolySynth(Tone.Synth ,{
     oscillator: {
       type: osc2Wave
     }
   })
 
+  // greate a gain node and connect it to the ampEnv
+  const gainNode = new Tone.Gain()
+  ampEnv.connect(gainNode.gain)
+
   // connect volume for indavidual oscilators 
   const osc1Volume = new Tone.Volume(volume.volume1).toDestination()
   const osc2Volume = new Tone.Volume(volume.volume2).toDestination()
-  synth.connect(osc1Volume)
-  synth2.connect(osc2Volume)
 
+  //  chaining synths 
+  synth.chain(osc1Volume, gainNode)
+  synth2.chain(osc2Volume, gainNode)
+
+  // handling click and release of the keyboard 
   const handleClick = (event) => {
     if (sequenceRecording) {
       setSequence(prevSequence => ([...prevSequence, event.target.value]));
     }
     else {
+      ampEnv.triggerAttack()
       synth.triggerAttack(event.target.value)
       synth2.triggerAttack(event.target.value)
     }
   }
-  
   const handleRelease = (event) => {
+    ampEnv.triggerRelease()
     synth.triggerRelease(event.target.value)
     synth2.triggerRelease(event.target.value)
   }
@@ -101,6 +119,12 @@ function App() {
     Tone.Transport.start();
   }
 
+  const tempUpdate = () => {
+    setAmpEnvState({attack: 10, decay: 0.2, sustain: 0.5, release: 0.8})
+  }
+
+  console.log(ampEnv)
+
   return (
     <div className="App">
       {/* SYNTH BODY */}
@@ -115,7 +139,7 @@ function App() {
           </div>
 
           {/* VOLUME MODULE */}
-          <fieldset className='synth-module'>
+          <fieldset className='synth-module justify-items-center grid'>
             <legend className='font-semibold'>Volume</legend>
             {/* volume 1 */}
             <CircleSlider max={30} min={-50} showTooltip={true} value={volume.volume1} onChange={changeVolume1} size={100} knobRadius={11} circleWidth={3} progressWidth={5}/>
@@ -131,6 +155,7 @@ function App() {
           <div className='px-72'>
             empty space!
           </div>
+          <button className='bg-slate-500' onClick={tempUpdate}>Test</button>
 
         <Sequencer ledState={ledState} handleRecClick={handleRecClick} handlePlayClick={handlePlayClick}/>
 
