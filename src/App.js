@@ -16,13 +16,19 @@ function App() {
   const [osc2Wave, setOsc2Wave] = useState("sine")
   const [volume , setVolume] = useState({volume1: -12, volume2: -12})
   // envelope
-  const [ampEnvState, setAmpEnvState] = useState({attack: 100, decay: 0.2, sustain: 0.5, release: 0.8})
-  const [ampEnv, setAmpEnv] = useState(new Tone.Envelope({
-    attack: ampEnvState.attack,
-    decay: ampEnvState.decay,
-    sustain: ampEnvState.sustain,
-    release: ampEnvState.release
-  }))
+  const [ampEnvState, setAmpEnvState] = useState({attack: 2, decay: 0.2, sustain: 0.5, release: 0.1})
+  let ampEnv = new Tone.Envelope({attack: 2, decay: 0.2, sustain: 0.5, release: 0.1})
+  // const [ampEnv, setAmpEnv] = useState(new Tone.Envelope({
+  //   attack: ampEnvState.attack,
+  //   decay: ampEnvState.decay,
+  //   sustain: ampEnvState.sustain,
+  //   release: ampEnvState.release
+  // }))
+
+  // useEffect(() => {
+  //   ampEnv = new Tone.Envelope({attack: 0.1, decay: 0.2, sustain: 0.5, release: 0.1})
+  //   console.log('ran')
+  // }, [ampEnvState])
   // sequence hooks
   const [ledState, setLedState] = useState("led led-red")
   const [sequenceRecording, setSequenceRecording] = useState(false)
@@ -34,22 +40,27 @@ function App() {
       type: osc1Wave,
     }
   })
-  // oscillator 2
+  // // oscillator 2
   const synth2 = new Tone.PolySynth(Tone.Synth ,{
     oscillator: {
       type: osc2Wave
     }
   })
 
-  // greate a gain node and connect it to the ampEnv
-  const gainNode = new Tone.Gain()
+  // const ampEnv = new Tone.Envelope({
+  //   attack: 1,
+  //   decay: 1,
+  //   sustain: 1,
+  //   release: 1
+  // })
+
+  const gainNode = new Tone.Gain().toDestination()
   ampEnv.connect(gainNode.gain)
 
   // connect volume for indavidual oscilators 
-  const osc1Volume = new Tone.Volume(volume.volume1).toDestination()
-  const osc2Volume = new Tone.Volume(volume.volume2).toDestination()
-
-  //  chaining synths 
+  const osc1Volume = new Tone.Volume(volume.volume1)
+  const osc2Volume = new Tone.Volume(volume.volume2)
+  
   synth.chain(osc1Volume, gainNode)
   synth2.chain(osc2Volume, gainNode)
 
@@ -118,12 +129,12 @@ function App() {
     }, sequence).start(0);
     Tone.Transport.start();
   }
-
   const tempUpdate = () => {
-    setAmpEnvState({attack: 10, decay: 0.2, sustain: 0.5, release: 0.8})
+    setAmpEnvState({attack: 0.1, decay: 0.2, sustain: 0.5, release: 0.1})
+    ampEnv = new Tone.Envelope(ampEnvState)
   }
 
-  console.log(ampEnv)
+  console.log(ampEnvState)
 
   return (
     <div className="App">
