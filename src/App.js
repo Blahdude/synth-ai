@@ -7,6 +7,7 @@ import { CircleSlider } from "react-circle-slider"
 import * as Tone from "tone";
 import { KeyBoard } from './Components/KeyBoard';
 import { Sequencer } from './Components/Sequencer';
+import { Envelope } from './Components/Evnvelope';
 import { Sequence } from 'tone';
 
 function App() {
@@ -15,15 +16,20 @@ function App() {
   const [osc1Wave, setOsc1Wave] = useState("sine")
   const [osc2Wave, setOsc2Wave] = useState("sine")
   const [volume , setVolume] = useState({volume1: -12, volume2: -12})
-  // envelope
+
+  // envelope NIGHTMARE NEED TO FIX THIS IS TEMPORARILY UGLY AND HORRIBLE!!!!!
   const [ampEnvState, setAmpEnvState] = useState({attack: 2, decay: 0.2, sustain: 0.5, release: 0.1})
-  let ampEnv = new Tone.Envelope({attack: 2, decay: 0.2, sustain: 0.5, release: 0.1})
+  
+  let ampEnvv = new Tone.Envelope({attack: 2, decay: 0.2, sustain: 0.5, release: 0.1})
+  const [ampEnv, setAmpEnv] = useState(ampEnvv)
   // const [ampEnv, setAmpEnv] = useState(new Tone.Envelope({
   //   attack: ampEnvState.attack,
   //   decay: ampEnvState.decay,
   //   sustain: ampEnvState.sustain,
   //   release: ampEnvState.release
   // }))
+
+  console.log(ampEnv.attack)
 
   // useEffect(() => {
   //   ampEnv = new Tone.Envelope({attack: 0.1, decay: 0.2, sustain: 0.5, release: 0.1})
@@ -81,20 +87,12 @@ function App() {
     synth2.triggerRelease(event.target.value)
   }
 
-  // annoyingly need two of these since the circle slider has no id to distinguish the difference between multiple sliders
-  const changeVolume1 = (event) => {
-    setVolume(prevVolume =>(
+  //  
+  const changeVolume = (name, value) => {
+    setVolume(prevVolume => (
       {
         ...prevVolume,
-        volume1: event
-      }
-    ))
-  }
-  const changeVolume2 = (event) => {
-    setVolume(prevVolume =>(
-      {
-        ...prevVolume,
-        volume2: event
+        [name]: value
       }
     ))
   }
@@ -128,10 +126,18 @@ function App() {
       // subdivisions are given as subarrays
     }, sequence).start(0);
     Tone.Transport.start();
+    ampEnv.triggerAttack()
   }
-  const tempUpdate = () => {
-    setAmpEnvState({attack: 0.1, decay: 0.2, sustain: 0.5, release: 0.1})
-    ampEnv = new Tone.Envelope(ampEnvState)
+
+  const handleAmpEnvChange = (name, value)  => {
+    setAmpEnvState(prevAmpEvnState => (
+      {
+        ...prevAmpEvnState,
+        [name]: value
+      }
+    ))
+    // After AmpEnvState is Changed update the AmpEnv to the new values
+    setAmpEnv(new Tone.Envelope({attack: ampEnvState.attack, decay: ampEnvState.decay, sustain: ampEnvState.sustain, release: ampEnvState.release}))
   }
 
   console.log(ampEnvState)
@@ -153,10 +159,12 @@ function App() {
           <fieldset className='synth-module justify-items-center grid'>
             <legend className='font-semibold'>Volume</legend>
             {/* volume 1 */}
-            <CircleSlider max={30} min={-50} showTooltip={true} value={volume.volume1} onChange={changeVolume1} size={100} knobRadius={11} circleWidth={3} progressWidth={5}/>
+            <CircleSlider max={30} min={-50} showTooltip={true} value={volume.volume1} onChange={(value) => changeVolume("volume1", value)} size={100} knobRadius={11} circleWidth={3} progressWidth={5}/>
             {/* volume 2 */}
-            <CircleSlider max={30} min={-50} showTooltip={true} value={volume.volume2} onChange={changeVolume2} size={100} knobRadius={11} circleWidth={3} progressWidth={5}/>
+            <CircleSlider max={30} min={-50} showTooltip={true} value={volume.volume2} onChange={(value) => changeVolume("volume2", value)} size={100} knobRadius={11} circleWidth={3} progressWidth={5}/>
           </fieldset>
+
+          <Envelope />
 
         {/* end osc and volume */}
         </div>
@@ -164,15 +172,15 @@ function App() {
                   
           {/* create emoty space ??? */}
           <div className='px-72'>
-            empty space!
+            buh
           </div>
-          <button className='bg-slate-500' onClick={tempUpdate}>Test</button>
 
         <Sequencer ledState={ledState} handleRecClick={handleRecClick} handlePlayClick={handlePlayClick}/>
 
         {/* KEYBOARD */}
-        <KeyBoard handleClick={handleClick} handleRelease={handleRelease}/>
+        <KeyBoard handleClick={handleClick} handleRelease={handleRelease} />
       </fieldset>
+      <CircleSlider min={0.1} max={15} showTooltip={true} value={ampEnvState.attack} onChange={(value) => handleAmpEnvChange("attack", value)} stepSize={0.5}/>
     </div>
   );
 }
