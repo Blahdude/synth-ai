@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './Styles/App.css';
 import {useEffect, useRef, useState} from 'react'
 import { OscSelector } from './Components/OscSelector';
@@ -139,7 +138,28 @@ function App() {
     setAmpEnv(new Tone.Envelope({attack: ampEnvState.attack, decay: ampEnvState.decay, sustain: ampEnvState.sustain, release: ampEnvState.release}))
   }
 
-  runMidi()
+  // Init Midi once
+  useEffect(() => {
+    runMidi()
+  }, [])
+  // listent for noteon event from midi.js
+  window.addEventListener('noteon', (event) => {
+    const { command, note, velocity, noteName } = event.detail;
+    // console.log(`Note On: ${noteName} (Note: ${note}, Velocity: ${velocity})`);
+
+    ampEnv.triggerAttack()
+    synth.triggerAttack(noteName)
+    synth2.triggerAttack(noteName)
+  });
+  // listen for noteoff event from midi.js
+  window.addEventListener('noteoff', (event) => {
+    const { command, note, velocity, noteName } = event.detail;
+    // console.log(`Note Off: ${noteName} (Note: ${note}, Velocity: ${velocity})`);
+    
+    ampEnv.triggerRelease()
+    synth.triggerRelease(noteName)
+    synth2.triggerRelease(noteName)
+  });
 
   return (
     <div className="App">
