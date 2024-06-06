@@ -164,7 +164,12 @@ function App() {
             <CircleSlider max={30} min={-50} showTooltip={true} value={volume.volume2} onChange={(value) => changeVolume("volume2", value)} size={100} knobRadius={11} circleWidth={3} progressWidth={5}/>
           </fieldset>
 
-          <Envelope />
+          {/* AMP ENVELOPE MODULE */}
+          <div>
+            <Envelope attack={ampEnvState.attack} decay={ampEnvState.decay} sustain={ampEnvState.sustain} release={ampEnvState.release} handleAmpEnvChange={handleAmpEnvChange}/>
+            {/* <Envelope attack={ampEnvState.attack} decay={ampEnvState.decay} sustain={ampEnvState.sustain} release={ampEnvState.release} handleAmpEnvChange={handleAmpEnvChange}/> */}
+          </div>
+
 
         {/* end osc and volume */}
         </div>
@@ -180,7 +185,17 @@ function App() {
         {/* KEYBOARD */}
         <KeyBoard handleClick={handleClick} handleRelease={handleRelease} />
       </fieldset>
-      <CircleSlider min={0.1} max={15} showTooltip={true} value={ampEnvState.attack} onChange={(value) => handleAmpEnvChange("attack", value)} stepSize={0.5}/>
+      {/* <CircleSlider min={0.1} max={15} showTooltip={true} value={ampEnvState.attack} onChange={(value) => handleAmpEnvChange("attack", value)} stepSize={0.5}/> */}
+      <div className='flex flex-wrap'>
+        <img src={"../Images/buh.gif"} className='opacity-0 hover:opacity-100 transition-all duration-1000'></img>
+        <img src={"../Images/buhhh.gif"} className='opacity-0 hover:opacity-100 transition-all duration-1000'></img>
+        {/* <img src={"../Images/cat.gif"}></img> */}
+        <img src={"../Images/funny-cat.gif"} className='opacity-0 hover:opacity-100 transition-all duration-1000'></img>
+        <img src={"../Images/buh_upside_down.gif"} className='opacity-0 hover:opacity-100 transition-all duration-1000'></img>
+        <img src={"../Images/catwaa.gif"} className='opacity-0 hover:opacity-100 transition-all duration-1000'></img>
+        <img src={"../Images/crazycat.gif"} className='opacity-0 hover:opacity-100 transition-all duration-1000'></img>
+        <img src={"../Images/buh2.gif"} className='opacity-0 hover:opacity-100 transition-all duration-1000'></img>
+      </div>
     </div>
   );
 }

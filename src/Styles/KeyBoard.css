@@ -1,5 +1,5 @@
 .keyboard-container {
-  @apply relative flex 
+  @apply relative flex m-auto
 }
 
 .white-key {
