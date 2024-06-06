@@ -9,6 +9,7 @@ import { KeyBoard } from './Components/KeyBoard';
 import { Sequencer } from './Components/Sequencer';
 import { Envelope } from './Components/Evnvelope';
 import { Sequence } from 'tone';
+import runMidi from './Midi';
 
 function App() {
 
@@ -28,8 +29,6 @@ function App() {
   //   sustain: ampEnvState.sustain,
   //   release: ampEnvState.release
   // }))
-
-  console.log(ampEnv.attack)
 
   // useEffect(() => {
   //   ampEnv = new Tone.Envelope({attack: 0.1, decay: 0.2, sustain: 0.5, release: 0.1})
@@ -140,12 +139,14 @@ function App() {
     setAmpEnv(new Tone.Envelope({attack: ampEnvState.attack, decay: ampEnvState.decay, sustain: ampEnvState.sustain, release: ampEnvState.release}))
   }
 
-  console.log(ampEnvState)
+  runMidi()
 
   return (
     <div className="App">
+      <div className='textured-background rounded-xl pb-3'>
+
       {/* SYNTH BODY */}
-      <fieldset className='synth-body'> 
+      <fieldset className='synth-body '> 
         <legend className='legend-title'>Super Swag Synth</legend>
 
         {/* container of osc and volume */}
@@ -165,7 +166,7 @@ function App() {
           </fieldset>
 
           {/* AMP ENVELOPE MODULE */}
-          <div>
+          <div className='ml-3'>
             <Envelope attack={ampEnvState.attack} decay={ampEnvState.decay} sustain={ampEnvState.sustain} release={ampEnvState.release} handleAmpEnvChange={handleAmpEnvChange}/>
             {/* <Envelope attack={ampEnvState.attack} decay={ampEnvState.decay} sustain={ampEnvState.sustain} release={ampEnvState.release} handleAmpEnvChange={handleAmpEnvChange}/> */}
           </div>
@@ -186,15 +187,21 @@ function App() {
         <KeyBoard handleClick={handleClick} handleRelease={handleRelease} />
       </fieldset>
       {/* <CircleSlider min={0.1} max={15} showTooltip={true} value={ampEnvState.attack} onChange={(value) => handleAmpEnvChange("attack", value)} stepSize={0.5}/> */}
+      
+      </div>
       <div className='flex flex-wrap'>
-        <img src={"../Images/buh.gif"} className='opacity-0 hover:opacity-100 transition-all duration-1000'></img>
-        <img src={"../Images/buhhh.gif"} className='opacity-0 hover:opacity-100 transition-all duration-1000'></img>
-        {/* <img src={"../Images/cat.gif"}></img> */}
-        <img src={"../Images/funny-cat.gif"} className='opacity-0 hover:opacity-100 transition-all duration-1000'></img>
-        <img src={"../Images/buh_upside_down.gif"} className='opacity-0 hover:opacity-100 transition-all duration-1000'></img>
-        <img src={"../Images/catwaa.gif"} className='opacity-0 hover:opacity-100 transition-all duration-1000'></img>
-        <img src={"../Images/crazycat.gif"} className='opacity-0 hover:opacity-100 transition-all duration-1000'></img>
-        <img src={"../Images/buh2.gif"} className='opacity-0 hover:opacity-100 transition-all duration-1000'></img>
+        <img src={"../Images/buh.gif"} className='cat-gif'></img>
+        <img src={"../Images/buhhh.gif"} className='cat-gif'></img>
+        <img src={"../Images/funny-cat.gif"} className='cat-gif'></img>
+        <img src={"../Images/buh_upside_down.gif"} className='cat-gif'></img>
+        <img src={"../Images/catwaa.gif"} className='cat-gif'></img>
+        <img src={"../Images/crazycat.gif"} className='cat-gif'></img>
+        <img src={"../Images/buh2.gif"} className='cat-gif'></img>
+        <img src={"../Images/plink.gif"} className='cat-gif'></img>
+        <img src={"../Images/screamingcat.gif"} className='cat-gif'></img>
+        <img src={"../Images/happycat.gif"} className='cat-gif'></img>
+        <img src={"../Images/cat explode.gif"} className='cat-gif'></img>
+        <img src={"../Images/huhcat.gif"} className='cat-gif'></img>
       </div>
     </div>
   );

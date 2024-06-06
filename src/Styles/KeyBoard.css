@@ -3,9 +3,9 @@
 }
 
 .white-key {
-  @apply bg-white px-4 py-10 border-solid border-black border-2 active:bg-slate-400
+  @apply bg-white px-4 py-10 border-solid border-black border-2 active:bg-slate-400 rounded-b-md
 }
 
 .black-key {
-  @apply bg-black text-white absolute w-8 h-16 active:bg-slate-700
+  @apply bg-black text-white absolute w-8 h-16 active:bg-slate-700 rounded-b-md
 }
