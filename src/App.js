@@ -22,17 +22,7 @@ function App() {
   
   let ampEnvv = new Tone.Envelope({attack: 2, decay: 0.2, sustain: 0.5, release: 0.1})
   const [ampEnv, setAmpEnv] = useState(ampEnvv)
-  // const [ampEnv, setAmpEnv] = useState(new Tone.Envelope({
-  //   attack: ampEnvState.attack,
-  //   decay: ampEnvState.decay,
-  //   sustain: ampEnvState.sustain,
-  //   release: ampEnvState.release
-  // }))
 
-  // useEffect(() => {
-  //   ampEnv = new Tone.Envelope({attack: 0.1, decay: 0.2, sustain: 0.5, release: 0.1})
-  //   console.log('ran')
-  // }, [ampEnvState])
   // sequence hooks
   const [ledState, setLedState] = useState("led led-red")
   const [sequenceRecording, setSequenceRecording] = useState(false)
@@ -50,13 +40,6 @@ function App() {
       type: osc2Wave
     }
   })
-
-  // const ampEnv = new Tone.Envelope({
-  //   attack: 1,
-  //   decay: 1,
-  //   sustain: 1,
-  //   release: 1
-  // })
 
   const gainNode = new Tone.Gain().toDestination()
   ampEnv.connect(gainNode.gain)
@@ -222,6 +205,8 @@ function App() {
         <img src={"../Images/happycat.gif"} className='cat-gif'></img>
         <img src={"../Images/cat explode.gif"} className='cat-gif'></img>
         <img src={"../Images/huhcat.gif"} className='cat-gif'></img>
+        <img src={"../Images/cateating.gif"} className='cat-gif'></img>
+        <img src={"../Images/catBOOM.gif"} className='cat-gif'></img>
       </div>
     </div>
   );
