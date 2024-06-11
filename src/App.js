@@ -4,7 +4,6 @@ import { OscSelector } from './Components/OscSelector';
 import { CircleSlider } from "react-circle-slider"
 // import { KnobHeadless } from 'react-knob-headless';
 import * as Tone from "tone";
-import { Sequence } from 'tone';
 import { KeyBoard } from './Components/KeyBoard';
 import { Sequencer } from './Components/Sequencer';
 import { Envelope } from './Components/Evnvelope';
@@ -177,23 +176,21 @@ function App() {
             <legend className='font-semibold'>Volume</legend>
             {/* volume 1 */}
             <CircleSlider max={30} min={-50} showTooltip={true} value={volume.volume1} onChange={(value) => changeVolume("volume1", value)} size={100} knobRadius={6} circleWidth={8} progressWidth={8} tooltipColor={"black"} progressColor={"#d13459"}/>
+            <h3 className='m-auto'>Osc 1</h3>
             {/* volume 2 */}
             <CircleSlider max={30} min={-50} showTooltip={true} value={volume.volume2} onChange={(value) => changeVolume("volume2", value)} size={100} knobRadius={6} circleWidth={8} progressWidth={8} tooltipColor={"black"} progressColor={"#d13459"}/>
+            <h3 className='m-auto'>Osc 2</h3>
           </fieldset>
 
-          {/* Filter */}
-          <fieldset className='synth-module ml-3 flex'>
-            <legend>Filter</legend>
-            <div className='m-auto'>
-              <CircleSlider value={filterValue} onChange={handleFilterChange} min={100} max={4000} showTooltip={true} stepSize={10} size={100} knobRadius={6} circleWidth={8} progressWidth={8} progressColor={"black"} tooltipColor={"black"}/>
-            </div>
-          </fieldset>
-
-          {/* AMP ENVELOPE AND LFO MODULES */}
+          {/* Filter  and LFO */}
           <div className='ml-3'>
-            {/* envelope does not have a fieldset surrounding it since its already created in the Envelope component. this is incase there is another filter envelope made */}
-            <Envelope attack={ampEnvState.attack} decay={ampEnvState.decay} sustain={ampEnvState.sustain} release={ampEnvState.release} handleAmpEnvChange={handleAmpEnvChange}/>
-            {/* <Envelope attack={ampEnvState.attack} decay={ampEnvState.decay} sustain={ampEnvState.sustain} release={ampEnvState.release} handleAmpEnvChange={handleAmpEnvChange}/> */}
+            {/* Filter module */}
+            <fieldset className='synth-module flex'>
+              <legend>Filter</legend>
+              <div className='m-auto'>
+                <CircleSlider value={filterValue} onChange={handleFilterChange} min={100} max={4000} showTooltip={true} stepSize={10} size={100} knobRadius={6} circleWidth={8} progressWidth={8} progressColor={"#302a2c"} tooltipColor={"black"}/>
+              </div>
+            </fieldset>
 
             {/* LFO module */}
             <fieldset className='synth-module flex'>
@@ -202,6 +199,15 @@ function App() {
                 <CircleSlider value={lfoRate} onChange={handleLfoChange} min={0} max={20} showTooltip={true} stepSize={1} size={100} knobRadius={6} circleWidth={8} progressWidth={8} progressColor={"#4073db"} tooltipColor={"black"}/>
               </div>
             </fieldset>
+          </div>
+
+          {/* AMP ENVELOPE AND LFO MODULES */}
+          <div className='ml-3'>
+            {/* envelope does not have a fieldset surrounding it since its already created in the Envelope component. this is incase there is another filter envelope made */}
+            <Envelope attack={ampEnvState.attack} decay={ampEnvState.decay} sustain={ampEnvState.sustain} release={ampEnvState.release} handleAmpEnvChange={handleAmpEnvChange}/>
+            {/* <Envelope attack={ampEnvState.attack} decay={ampEnvState.decay} sustain={ampEnvState.sustain} release={ampEnvState.release} handleAmpEnvChange={handleAmpEnvChange}/> */}
+
+
           {/* end Amp envelope and lfo div */}
           </div>
 
@@ -214,7 +220,7 @@ function App() {
         {/* KEYBOARD */}
         <KeyBoard handleClick={handleClick} handleRelease={handleRelease} />
       </fieldset>
-      
+
       {/* end synth texture background div */}
       </div>
 
