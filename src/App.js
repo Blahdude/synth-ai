@@ -12,8 +12,8 @@ import runMidi from './Midi';
 function App() {
 
   // hooks
-  const [osc1Wave, setOsc1Wave] = useState("sine")
-  const [osc2Wave, setOsc2Wave] = useState("sine")
+  const [osc1, setOsc1] = useState({wave: "sine", detune: 0})
+  const [osc2, setOsc2] = useState({wave: "sine", detune: 0})
   const [volume , setVolume] = useState({volume1: -12, volume2: -12})
   const [filterValue, setFilterValue] = useState(1500)
   const [lfoRate, setLfoRate] = useState(0)
@@ -32,13 +32,15 @@ function App() {
   // oscillator 1
   const synth = new Tone.PolySynth(Tone.Synth, {
     oscillator: {
-      type: osc1Wave,
+      type: osc1.wave,
+      detune: osc1.detune
     }
   })
   // // oscillator 2
   const synth2 = new Tone.PolySynth(Tone.Synth ,{
     oscillator: {
-      type: osc2Wave
+      type: osc2.wave,
+      detune: osc2.detune
     }
   })
   const filter = new Tone.Filter(filterValue, "lowpass")
@@ -82,13 +84,38 @@ function App() {
     ))
   }
 
-  // you should merge these into one function and keep the osc waves in one object in useState
-  const changeOsc1Wave = (event) => {
-    setOsc1Wave(event.target.value)
-  }
-
-  const changeOsc2Wave = (event) => {
-    setOsc2Wave(event.target.value)
+  // handle change for osc1 and osc2 state varables
+  const handleOscChange = (osc, type, value) => {
+    // change wave type
+    if (type == "wave"){
+      if(osc == "osc1"){
+        setOsc1(prevOsc => ({
+          ...prevOsc,
+          wave: value
+        }))
+      }
+      else{
+        setOsc2(prevOsc => ({
+          ...prevOsc,
+          wave: value
+        }))
+      }
+    }
+    // change detune
+    if (type == "detune"){
+      if (osc == "osc1"){
+        setOsc1(prevOsc => ({
+          ...prevOsc,
+          detune: value
+        }))
+      }
+      else {
+        setOsc2(prevOsc => ({
+          ...prevOsc,
+          detune: value
+        }))
+      }
+    }
   }
 
   const handleFilterChange = (event) => {
@@ -158,28 +185,40 @@ function App() {
 
   return (
     <div className="App">
-      <div className='textured-background rounded-xl pb-3'>
+      <div className='textured-background rounded-xl py-20'>
 
       {/* SYNTH BODY */}
       <fieldset className='synth-body '> 
         <legend className='legend-title'>Super Swag Synth</legend>
 
-        {/* container of osc and volume */}
+        {/* container of osc mixer filter and lfo */}
         <div className='flex'>
           <div>
-            <OscSelector oscNum={1} handleClick={changeOsc1Wave} oscWave={osc1Wave}/>
-            <OscSelector oscNum={2} handleClick={changeOsc2Wave} oscWave={osc2Wave}/>
+            <OscSelector oscNum={1} handleClick={(value) => handleOscChange("osc1", "wave", value.target.value)} oscWave={osc1.wave}/>
+            <OscSelector oscNum={2} handleClick={(value) => handleOscChange("osc2", "wave", value.target.value)} oscWave={osc2.wave}/>
           </div>
 
-          {/* VOLUME MODULE */}
-          <fieldset className='synth-module justify-items-center grid'>
-            <legend className='font-semibold'>Volume</legend>
-            {/* volume 1 */}
-            <CircleSlider max={30} min={-50} showTooltip={true} value={volume.volume1} onChange={(value) => changeVolume("volume1", value)} size={100} knobRadius={6} circleWidth={8} progressWidth={8} tooltipColor={"black"} progressColor={"#d13459"}/>
-            <h3 className='m-auto'>Osc 1</h3>
-            {/* volume 2 */}
-            <CircleSlider max={30} min={-50} showTooltip={true} value={volume.volume2} onChange={(value) => changeVolume("volume2", value)} size={100} knobRadius={6} circleWidth={8} progressWidth={8} tooltipColor={"black"} progressColor={"#d13459"}/>
-            <h3 className='m-auto'>Osc 2</h3>
+          {/* Mixer MODULE */}
+          <fieldset className='synth-module flex flex-row ml-3'>
+            <legend className='font-semibold'>Mixer</legend>
+            {/* detune div */}
+            <div className='flex flex-col'>
+              <CircleSlider max={300} min={-300} showTooltip={true} value={osc1.detune} onChange={(value) => handleOscChange("osc1", "detune", value)} size={100} knobRadius={6} circleWidth={8} progressWidth={8} tooltipColor={"black"} progressColor={"#d13459"}/>
+              <h3 className='m-auto'>Detune 1</h3>
+              {/* volume 2 */}
+              <CircleSlider max={300} min={-300} showTooltip={true} value={osc2.detune} onChange={(value) => handleOscChange("osc2", "detune", value)} size={100} knobRadius={6} circleWidth={8} progressWidth={8} tooltipColor={"black"} progressColor={"#d13459"}/>
+              <h3 className='m-auto'>Detune 2</h3>
+            </div>
+
+            <div className='flex flex-col'>
+              {/* volume 1 */}
+              <CircleSlider max={30} min={-50} showTooltip={true} value={volume.volume1} onChange={(value) => changeVolume("volume1", value)} size={100} knobRadius={6} circleWidth={8} progressWidth={8} tooltipColor={"black"} progressColor={"#d13459"}/>
+              <h3 className='m-auto'>Volume 1</h3>
+              {/* volume 2 */}
+              <CircleSlider max={30} min={-50} showTooltip={true} value={volume.volume2} onChange={(value) => changeVolume("volume2", value)} size={100} knobRadius={6} circleWidth={8} progressWidth={8} tooltipColor={"black"} progressColor={"#d13459"}/>
+              <h3 className='m-auto'>Volume 2</h3>
+            </div>
+
           </fieldset>
 
           {/* Filter  and LFO */}
@@ -212,7 +251,7 @@ function App() {
           </div>
 
 
-        {/* end osc and volume div */}
+        {/* end osc mixer filter and lfo div */}
         </div>
 
         <Sequencer ledState={ledState} handleRecClick={handleRecClick} handlePlayClick={handlePlayClick}/>

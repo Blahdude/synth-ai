@@ -1,11 +1,13 @@
 import React from "react";
+import { CircleSlider } from "react-circle-slider"
+import '../Styles/App.css'
 import { useState } from "react";
 
 export const OscSelector = (props) => {
 
 
   return (
-    <fieldset className="border-solid border-2 w-48 border-black rounded-lg bg-gray-300 px-3 py-2 drop-shadow-2xl mr-3">
+    <fieldset className="synth-module">
       <legend className="font-semibold">Osc {props.oscNum}</legend>
       <div className="flex flex-col">
         <input 
