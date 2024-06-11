@@ -86,35 +86,17 @@ function App() {
 
   // handle change for osc1 and osc2 state varables
   const handleOscChange = (osc, type, value) => {
-    // change wave type
-    if (type == "wave"){
-      if(osc == "osc1"){
-        setOsc1(prevOsc => ({
-          ...prevOsc,
-          wave: value
-        }))
-      }
-      else{
-        setOsc2(prevOsc => ({
-          ...prevOsc,
-          wave: value
-        }))
-      }
+    if (osc == "osc1"){
+      setOsc1(prevOsc => ({
+        ...prevOsc,
+        [type]: value
+      }))
     }
-    // change detune
-    if (type == "detune"){
-      if (osc == "osc1"){
-        setOsc1(prevOsc => ({
-          ...prevOsc,
-          detune: value
-        }))
-      }
-      else {
-        setOsc2(prevOsc => ({
-          ...prevOsc,
-          detune: value
-        }))
-      }
+    else{
+      setOsc2(prevOsc => ({
+        ...prevOsc,
+        [type]: value
+      }))
     }
   }
 
