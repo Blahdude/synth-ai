@@ -4,10 +4,10 @@ import { OscSelector } from './Components/OscSelector';
 import { CircleSlider } from "react-circle-slider"
 // import { KnobHeadless } from 'react-knob-headless';
 import * as Tone from "tone";
+import { Sequence } from 'tone';
 import { KeyBoard } from './Components/KeyBoard';
 import { Sequencer } from './Components/Sequencer';
 import { Envelope } from './Components/Evnvelope';
-import { Sequence } from 'tone';
 import runMidi from './Midi';
 
 function App() {
@@ -16,6 +16,8 @@ function App() {
   const [osc1Wave, setOsc1Wave] = useState("sine")
   const [osc2Wave, setOsc2Wave] = useState("sine")
   const [volume , setVolume] = useState({volume1: -12, volume2: -12})
+  const [filterValue, setFilterValue] = useState(1500)
+  const [lfoRate, setLfoRate] = useState(0)
 
   // envelope NIGHTMARE NEED TO FIX THIS IS TEMPORARILY UGLY AND HORRIBLE!!!!!
   const [ampEnvState, setAmpEnvState] = useState({attack: 2, decay: 0.2, sustain: 0.5, release: 0.1})
@@ -40,6 +42,9 @@ function App() {
       type: osc2Wave
     }
   })
+  const filter = new Tone.Filter(filterValue, "lowpass")
+  // filter with connected lfo
+  const autoFilter = new Tone.AutoFilter(`${lfoRate}n`).start()
 
   const gainNode = new Tone.Gain().toDestination()
   ampEnv.connect(gainNode.gain)
@@ -48,8 +53,8 @@ function App() {
   const osc1Volume = new Tone.Volume(volume.volume1)
   const osc2Volume = new Tone.Volume(volume.volume2)
   
-  synth.chain(osc1Volume, gainNode)
-  synth2.chain(osc2Volume, gainNode)
+  synth.chain(filter, autoFilter, osc1Volume, gainNode)
+  synth2.chain(filter, autoFilter, osc2Volume, gainNode)
 
   // handling click and release of the keyboard 
   const handleClick = (event) => {
@@ -85,6 +90,14 @@ function App() {
 
   const changeOsc2Wave = (event) => {
     setOsc2Wave(event.target.value)
+  }
+
+  const handleFilterChange = (event) => {
+    setFilterValue(event)
+  }
+
+  const handleLfoChange = (event) => {
+    setLfoRate(event)
   }
 
   // handle click of record sequence button 
@@ -163,35 +176,49 @@ function App() {
           <fieldset className='synth-module justify-items-center grid'>
             <legend className='font-semibold'>Volume</legend>
             {/* volume 1 */}
-            <CircleSlider max={30} min={-50} showTooltip={true} value={volume.volume1} onChange={(value) => changeVolume("volume1", value)} size={100} knobRadius={11} circleWidth={3} progressWidth={5}/>
+            <CircleSlider max={30} min={-50} showTooltip={true} value={volume.volume1} onChange={(value) => changeVolume("volume1", value)} size={100} knobRadius={6} circleWidth={8} progressWidth={8} tooltipColor={"black"} progressColor={"#d13459"}/>
             {/* volume 2 */}
-            <CircleSlider max={30} min={-50} showTooltip={true} value={volume.volume2} onChange={(value) => changeVolume("volume2", value)} size={100} knobRadius={11} circleWidth={3} progressWidth={5}/>
+            <CircleSlider max={30} min={-50} showTooltip={true} value={volume.volume2} onChange={(value) => changeVolume("volume2", value)} size={100} knobRadius={6} circleWidth={8} progressWidth={8} tooltipColor={"black"} progressColor={"#d13459"}/>
           </fieldset>
 
-          {/* AMP ENVELOPE MODULE */}
+          {/* Filter */}
+          <fieldset className='synth-module ml-3 flex'>
+            <legend>Filter</legend>
+            <div className='m-auto'>
+              <CircleSlider value={filterValue} onChange={handleFilterChange} min={100} max={4000} showTooltip={true} stepSize={10} size={100} knobRadius={6} circleWidth={8} progressWidth={8} progressColor={"black"} tooltipColor={"black"}/>
+            </div>
+          </fieldset>
+
+          {/* AMP ENVELOPE AND LFO MODULES */}
           <div className='ml-3'>
+            {/* envelope does not have a fieldset surrounding it since its already created in the Envelope component. this is incase there is another filter envelope made */}
             <Envelope attack={ampEnvState.attack} decay={ampEnvState.decay} sustain={ampEnvState.sustain} release={ampEnvState.release} handleAmpEnvChange={handleAmpEnvChange}/>
             {/* <Envelope attack={ampEnvState.attack} decay={ampEnvState.decay} sustain={ampEnvState.sustain} release={ampEnvState.release} handleAmpEnvChange={handleAmpEnvChange}/> */}
+
+            {/* LFO module */}
+            <fieldset className='synth-module flex'>
+              <legend>LFO</legend>
+              <div className='m-auto'>
+                <CircleSlider value={lfoRate} onChange={handleLfoChange} min={0} max={20} showTooltip={true} stepSize={1} size={100} knobRadius={6} circleWidth={8} progressWidth={8} progressColor={"#4073db"} tooltipColor={"black"}/>
+              </div>
+            </fieldset>
+          {/* end Amp envelope and lfo div */}
           </div>
 
 
-        {/* end osc and volume */}
+        {/* end osc and volume div */}
         </div>
-
-                  
-          {/* create emoty space ??? */}
-          <div className='px-72'>
-            buh
-          </div>
 
         <Sequencer ledState={ledState} handleRecClick={handleRecClick} handlePlayClick={handlePlayClick}/>
 
         {/* KEYBOARD */}
         <KeyBoard handleClick={handleClick} handleRelease={handleRelease} />
       </fieldset>
-      {/* <CircleSlider min={0.1} max={15} showTooltip={true} value={ampEnvState.attack} onChange={(value) => handleAmpEnvChange("attack", value)} stepSize={0.5}/> */}
       
+      {/* end synth texture background div */}
       </div>
+
+
       <div className='flex flex-wrap'>
         <img src={"../Images/buh.gif"} className='cat-gif'></img>
         <img src={"../Images/buhhh.gif"} className='cat-gif'></img>
