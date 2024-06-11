@@ -12,9 +12,8 @@ import runMidi from './Midi';
 function App() {
 
   // hooks
-  const [osc1, setOsc1] = useState({wave: "sine", detune: 0})
-  const [osc2, setOsc2] = useState({wave: "sine", detune: 0})
-  const [volume , setVolume] = useState({volume1: -12, volume2: -12})
+  const [osc1, setOsc1] = useState({wave: "sine", detune: 0, volume: -12})
+  const [osc2, setOsc2] = useState({wave: "sine", detune: 0, volume: -12})
   const [filterValue, setFilterValue] = useState(1500)
   const [lfoRate, setLfoRate] = useState(0)
 
@@ -43,6 +42,7 @@ function App() {
       detune: osc2.detune
     }
   })
+  
   const filter = new Tone.Filter(filterValue, "lowpass")
   // filter with connected lfo
   const autoFilter = new Tone.AutoFilter(`${lfoRate}n`).start()
@@ -51,8 +51,8 @@ function App() {
   ampEnv.connect(gainNode.gain)
 
   // connect volume for indavidual oscilators 
-  const osc1Volume = new Tone.Volume(volume.volume1)
-  const osc2Volume = new Tone.Volume(volume.volume2)
+  const osc1Volume = new Tone.Volume(osc1.volume)
+  const osc2Volume = new Tone.Volume(osc2.volume)
   
   synth.chain(filter, autoFilter, osc1Volume, gainNode)
   synth2.chain(filter, autoFilter, osc2Volume, gainNode)
@@ -72,16 +72,6 @@ function App() {
     ampEnv.triggerRelease()
     synth.triggerRelease(event.target.value)
     synth2.triggerRelease(event.target.value)
-  }
-
-  //  
-  const changeVolume = (name, value) => {
-    setVolume(prevVolume => (
-      {
-        ...prevVolume,
-        [name]: value
-      }
-    ))
   }
 
   // handle change for osc1 and osc2 state varables
@@ -194,10 +184,10 @@ function App() {
 
             <div className='flex flex-col'>
               {/* volume 1 */}
-              <CircleSlider max={30} min={-50} showTooltip={true} value={volume.volume1} onChange={(value) => changeVolume("volume1", value)} size={100} knobRadius={6} circleWidth={8} progressWidth={8} tooltipColor={"black"} progressColor={"#d13459"}/>
+              <CircleSlider max={30} min={-50} showTooltip={true} value={osc1.volume} onChange={(value) => handleOscChange("osc1", "volume", value)} size={100} knobRadius={6} circleWidth={8} progressWidth={8} tooltipColor={"black"} progressColor={"#d13459"}/>
               <h3 className='m-auto'>Volume 1</h3>
               {/* volume 2 */}
-              <CircleSlider max={30} min={-50} showTooltip={true} value={volume.volume2} onChange={(value) => changeVolume("volume2", value)} size={100} knobRadius={6} circleWidth={8} progressWidth={8} tooltipColor={"black"} progressColor={"#d13459"}/>
+              <CircleSlider max={30} min={-50} showTooltip={true} value={osc2.volume} onChange={(value) => handleOscChange("osc2", "volume", value)} size={100} knobRadius={6} circleWidth={8} progressWidth={8} tooltipColor={"black"} progressColor={"#d13459"}/>
               <h3 className='m-auto'>Volume 2</h3>
             </div>
 
