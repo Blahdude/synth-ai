@@ -15,7 +15,7 @@ export const KeyBoard = (props) => {
 
       <button className='white-key' value="E3" onMouseDown={props.handleClick} onMouseUp={props.handleRelease}>E3</button>
 
-      <button className='white-key' value="F3" onMouseDown={props.handleClick} onMouseUp={props.handleRelease}>F4</button>
+      <button className='white-key' value="F3" onMouseDown={props.handleClick} onMouseUp={props.handleRelease}>F3</button>
 
       <button className="black-key" value="Gb3" onMouseDown={props.handleClick} onMouseUp={props.handleRelease} style={{left: "200px"}}>Gb3</button>
 

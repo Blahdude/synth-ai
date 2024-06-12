@@ -13,8 +13,8 @@ function App() {
 
   // hooks
   // const [osc, setOsc] = useState({osc1: {wave: "sawtooth", detune: 0, volume: -12}, osc2: {wave: "sawtooth", detune: 0, volume: -12}})
-  const [osc1, setOsc1] = useState({wave: "sawtooth", detune: 0, volume: -12})
-  const [osc2, setOsc2] = useState({wave: "sawtooth", detune: 0, volume: -12})
+  const [osc1, setOsc1] = useState({wave: "sawtooth", detune: 0, volume: -10})
+  const [osc2, setOsc2] = useState({wave: "sawtooth", detune: 0, volume: -10})
   const [filterValue, setFilterValue] = useState(1500)
   const [lfoRate, setLfoRate] = useState(0)
 
@@ -269,11 +269,14 @@ function App() {
         {/* end osc mixer filter and lfo div */}
         </div>
 
-        <Sequencer ledState={ledState} handleRecClick={handleRecClick} handlePlayClick={handlePlayClick}/>
-        
-        {/* TEMPORARY HOLD BUTTON!!!! */}
-        <button className={`${holdState ? 'bg-red-400' : 'bg-gray-400'} rounded-md px-2 border-solid border-black border-2 ml-3 transition-all duration-200`} onClick={handleHoldStateChange}>HOLD</button>
+        <div className='flex flex-row mb-3 justify-between'>
+          <Sequencer ledState={ledState} handleRecClick={handleRecClick} handlePlayClick={handlePlayClick}/>
 
+          <button className={`${holdState ? 'bg-red-400' : 'bg-gray-400'} rounded-md px-3 border-solid border-black border-2 ml-3 transition-all duration-200 mr-40`} onClick={handleHoldStateChange}>HOLD</button>
+
+        </div>
+        
+        
         {/* KEYBOARD */}
         <KeyBoard handleClick={(event) => handlePlayNote(event.target.value)} handleRelease={(event) => handleReleaseNote(event.target.value)} />
       </fieldset>
