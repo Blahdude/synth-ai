@@ -18,6 +18,9 @@ function App() {
   const [filterValue, setFilterValue] = useState(1500)
   const [lfoRate, setLfoRate] = useState(0)
 
+  const [holdState, setHoldState] = useState(false)
+  const heldNotesArray = useRef([])
+
   // envelope NIGHTMARE NEED TO FIX THIS IS TEMPORARILY UGLY AND HORRIBLE!!!!!
   const [ampEnvState, setAmpEnvState] = useState({attack: 2, decay: 0.2, sustain: 1, release: 0.1})
   
@@ -70,10 +73,45 @@ function App() {
     }
   }
   const handleReleaseNote = (event) => {
-    ampEnv.triggerRelease()
-    synth.triggerRelease(event)
-    synth2.triggerRelease(event)
+    // iff hold state is off release if not dont release notes
+    if (!holdState){
+      ampEnv.triggerRelease()
+      synth.triggerRelease(event)
+      synth2.triggerRelease(event)
+    }
+    else {
+      // push the held note to the array so it can be released when the hold button is toggled again
+      heldNotesArray.current.push(event)
+    }
   }
+
+  
+  const handleHoldStateChange = () => {
+    // if hold is currently false which means you are now turning hold on
+    // set hold to true and do nothing else.
+    // notes wont be released in the handleReleaseNote function
+
+    // else hold state is on and you are enow turning it off
+    // set hold state to false. and then run handleRelease again and it should release the note
+    if (!holdState) {
+      setHoldState(true)
+    }
+    else{
+      setHoldState(false)
+      handleReleaseNotesHeld(heldNotesArray.current)
+    }
+  }
+
+  // release all notes that are contained in the heldNotes Array then empty it once they are released
+  const handleReleaseNotesHeld = (notesArray) => {
+    ampEnv.triggerRelease()
+    notesArray.forEach(element => {
+      synth.triggerRelease(element)
+      synth2.triggerRelease(element)
+    });
+    heldNotesArray.current = []
+  }
+
 
   // handle change for osc1 and osc2 state varables
   const handleOscChange = (osc, type, value) => {
@@ -232,6 +270,9 @@ function App() {
         </div>
 
         <Sequencer ledState={ledState} handleRecClick={handleRecClick} handlePlayClick={handlePlayClick}/>
+        
+        {/* TEMPORARY HOLD BUTTON!!!! */}
+        <button className={`${holdState ? 'bg-red-400' : 'bg-gray-400'} rounded-md px-2 border-solid border-black border-2 ml-3 transition-all duration-200`} onClick={handleHoldStateChange}>HOLD</button>
 
         {/* KEYBOARD */}
         <KeyBoard handleClick={(event) => handlePlayNote(event.target.value)} handleRelease={(event) => handleReleaseNote(event.target.value)} />
