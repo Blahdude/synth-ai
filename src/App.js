@@ -12,15 +12,16 @@ import runMidi from './Midi';
 function App() {
 
   // hooks
-  const [osc1, setOsc1] = useState({wave: "sine", detune: 0, volume: -12})
-  const [osc2, setOsc2] = useState({wave: "sine", detune: 0, volume: -12})
+  // const [osc, setOsc] = useState({osc1: {wave: "sawtooth", detune: 0, volume: -12}, osc2: {wave: "sawtooth", detune: 0, volume: -12}})
+  const [osc1, setOsc1] = useState({wave: "sawtooth", detune: 0, volume: -12})
+  const [osc2, setOsc2] = useState({wave: "sawtooth", detune: 0, volume: -12})
   const [filterValue, setFilterValue] = useState(1500)
   const [lfoRate, setLfoRate] = useState(0)
 
   // envelope NIGHTMARE NEED TO FIX THIS IS TEMPORARILY UGLY AND HORRIBLE!!!!!
-  const [ampEnvState, setAmpEnvState] = useState({attack: 2, decay: 0.2, sustain: 0.5, release: 0.1})
+  const [ampEnvState, setAmpEnvState] = useState({attack: 2, decay: 0.2, sustain: 1, release: 0.1})
   
-  let ampEnvv = new Tone.Envelope({attack: 2, decay: 0.2, sustain: 0.5, release: 0.1})
+  let ampEnvv = new Tone.Envelope({attack: 2, decay: 0.2, sustain: 1, release: 0.1})
   const [ampEnv, setAmpEnv] = useState(ampEnvv)
 
   // sequence hooks
@@ -42,7 +43,7 @@ function App() {
       detune: osc2.detune
     }
   })
-  
+
   const filter = new Tone.Filter(filterValue, "lowpass")
   // filter with connected lfo
   const autoFilter = new Tone.AutoFilter(`${lfoRate}n`).start()
@@ -58,20 +59,20 @@ function App() {
   synth2.chain(filter, autoFilter, osc2Volume, gainNode)
 
   // handling click and release of the keyboard 
-  const handleClick = (event) => {
+  const handlePlayNote = (event) => {
     if (sequenceRecording) {
-      setSequence(prevSequence => ([...prevSequence, event.target.value]));
+      setSequence(prevSequence => ([...prevSequence, event]));
     }
     else {
       ampEnv.triggerAttack()
-      synth.triggerAttack(event.target.value)
-      synth2.triggerAttack(event.target.value)
+      synth.triggerAttack(event)
+      synth2.triggerAttack(event)
     }
   }
-  const handleRelease = (event) => {
+  const handleReleaseNote = (event) => {
     ampEnv.triggerRelease()
-    synth.triggerRelease(event.target.value)
-    synth2.triggerRelease(event.target.value)
+    synth.triggerRelease(event)
+    synth2.triggerRelease(event)
   }
 
   // handle change for osc1 and osc2 state varables
@@ -88,6 +89,15 @@ function App() {
         [type]: value
       }))
     }
+    // setOsc(prevOsc => (
+    //   {
+    //     ...prevOsc,
+    //     [osc]: {
+    //       ...prevosc,
+    //        [type]: value
+    //     }
+    //   }
+    // ))
   }
 
   const handleFilterChange = (event) => {
@@ -139,21 +149,16 @@ function App() {
   // listent for noteon event from midi.js
   window.addEventListener('noteon', (event) => {
     const { command, note, velocity, noteName } = event.detail;
-    // console.log(`Note On: ${noteName} (Note: ${note}, Velocity: ${velocity})`);
 
-    ampEnv.triggerAttack()
-    synth.triggerAttack(noteName)
-    synth2.triggerAttack(noteName)
+    handlePlayNote(noteName)
   });
   // listen for noteoff event from midi.js
   window.addEventListener('noteoff', (event) => {
     const { command, note, velocity, noteName } = event.detail;
-    // console.log(`Note Off: ${noteName} (Note: ${note}, Velocity: ${velocity})`);
-    
-    ampEnv.triggerRelease()
-    synth.triggerRelease(noteName)
-    synth2.triggerRelease(noteName)
+
+    handleReleaseNote(noteName)
   });
+
 
   return (
     <div className="App">
@@ -199,7 +204,7 @@ function App() {
             <fieldset className='synth-module flex'>
               <legend>Filter</legend>
               <div className='m-auto'>
-                <CircleSlider value={filterValue} onChange={handleFilterChange} min={100} max={4000} showTooltip={true} stepSize={10} size={100} knobRadius={6} circleWidth={8} progressWidth={8} progressColor={"#302a2c"} tooltipColor={"black"}/>
+                <CircleSlider value={filterValue} onChange={handleFilterChange} min={100} max={4000} showTooltip={true} stepSize={10} size={100} knobRadius={6} circleWidth={8} progressWidth={8} progressColor={"#302a2c"} tooltipColor={"black"} showPercentage={false}/>
               </div>
             </fieldset>
 
@@ -229,7 +234,7 @@ function App() {
         <Sequencer ledState={ledState} handleRecClick={handleRecClick} handlePlayClick={handlePlayClick}/>
 
         {/* KEYBOARD */}
-        <KeyBoard handleClick={handleClick} handleRelease={handleRelease} />
+        <KeyBoard handleClick={(event) => handlePlayNote(event.target.value)} handleRelease={(event) => handleReleaseNote(event.target.value)} />
       </fieldset>
 
       {/* end synth texture background div */}
