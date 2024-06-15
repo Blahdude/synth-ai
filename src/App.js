@@ -7,6 +7,7 @@ import * as Tone from "tone";
 import { KeyBoard } from './Components/KeyBoard';
 import { Sequencer } from './Components/Sequencer';
 import { Envelope } from './Components/Evnvelope';
+import { Oscilliscope } from './Components/Oscilloscope';
 import runMidi from './Midi';
 
 function App() {
@@ -22,9 +23,9 @@ function App() {
   const heldNotesArray = useRef([])
 
   // envelope NIGHTMARE NEED TO FIX THIS IS TEMPORARILY UGLY AND HORRIBLE!!!!!
-  const [ampEnvState, setAmpEnvState] = useState({attack: 2, decay: 0.2, sustain: 1, release: 0.1})
+  const [ampEnvState, setAmpEnvState] = useState({attack: 0.1, decay: 1, sustain: 1, release: 0.1})
   
-  let ampEnvv = new Tone.Envelope({attack: 2, decay: 0.2, sustain: 1, release: 0.1})
+  let ampEnvv = new Tone.Envelope({attack: 0.1, decay: 1, sustain: 1, release: 0.1})
   const [ampEnv, setAmpEnv] = useState(ampEnvv)
 
   // sequence hooks
@@ -61,6 +62,41 @@ function App() {
   synth.chain(filter, autoFilter, osc1Volume, gainNode)
   synth2.chain(filter, autoFilter, osc2Volume, gainNode)
 
+  // // web audio for oscilloscope
+  // const webAudioContext = Tone.getContext()
+  // const webAudioGain = webAudioContext.createGain()
+  // // connect tone.js gain node to web audio gain node
+  // gainNode.connect(webAudioGain)
+  // // create an analyzer
+  // const analyzer = webAudioContext.createAnalyser()
+  // analyzer.smoothingTimeConstant = 1
+  // analyzer.fftSize = 2048
+
+  // const dataArray = new Uint8Array(analyzer.frequencyBinCount);
+
+  // analyzer.getByteTimeDomainData(dataArray)
+  // console.log(dataArray)
+
+  const analyzer = new Tone.Analyser('fft', 2048)
+  gainNode.connect(analyzer)
+
+  // // Visualization function
+  // function draw() {
+  //   requestAnimationFrame(draw);
+
+  //   const fftValues = analyzer.getValue();
+  //   console.log(fftValues); // Log FFT data for debugging
+  // }
+
+  // draw();
+  
+
+
+
+
+
+
+
   // handling click and release of the keyboard 
   const handlePlayNote = (event) => {
     if (sequenceRecording) {
@@ -84,7 +120,6 @@ function App() {
       heldNotesArray.current.push(event)
     }
   }
-
   
   const handleHoldStateChange = () => {
     // if hold is currently false which means you are now turning hold on
@@ -273,7 +308,8 @@ function App() {
           <Sequencer ledState={ledState} handleRecClick={handleRecClick} handlePlayClick={handlePlayClick}/>
 
           <button className={`${holdState ? 'bg-red-400' : 'bg-gray-400'} rounded-md px-3 border-solid border-black border-2 ml-3 transition-all duration-200 mr-40`} onClick={handleHoldStateChange}>HOLD</button>
-
+        
+          <Oscilliscope analyzer={analyzer}/>
         </div>
         
         
@@ -301,6 +337,7 @@ function App() {
         <img src={"../Images/cateating.gif"} className='cat-gif'></img>
         <img src={"../Images/catBOOM.gif"} className='cat-gif'></img>
       </div>
+
     </div>
   );
 }
