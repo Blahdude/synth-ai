@@ -7,6 +7,7 @@ import * as Tone from "tone";
 import { KeyBoard } from './Components/KeyBoard';
 import { Sequencer } from './Components/Sequencer';
 import { Envelope } from './Components/Evnvelope';
+import { PresetBank } from './Components/PresetBank';
 import { Oscilliscope } from './Components/Oscilloscope';
 import runMidi from './Midi';
 
@@ -32,6 +33,8 @@ function App() {
   const [ledState, setLedState] = useState("led led-red")
   const [sequenceRecording, setSequenceRecording] = useState(false)
   const [sequence , setSequence] = useState([])
+
+  const [preset, setPreset] = useState(0)
 
   // oscillator 1
   const synth = new Tone.PolySynth(Tone.Synth, {
@@ -232,6 +235,42 @@ function App() {
     handleReleaseNote(noteName)
   });
 
+  const selectPreset = (value) => {
+    console.log(value.target.value)
+    setPreset(value.target.value)
+  }
+
+  const test1 = () => {
+    setFilterValue(500)
+    setLfoRate(11)
+
+    setAmpEnvState({attack: 2, decay: 0, sustain: 1, release: 2})
+
+    setAmpEnv(new Tone.Envelope({attack: ampEnvState.attack, decay: ampEnvState.decay, sustain: ampEnvState.sustain, release: ampEnvState.release}))
+
+    setOsc2(prevOsc => (
+      {
+        ...prevOsc,
+        detune: 14
+      }
+    ))
+  }
+
+  const test2 = () => {
+    setFilterValue(1000)
+    setLfoRate(5)
+
+    setAmpEnvState({attack: 10, decay: 2, sustain: 0.5, release: 10})
+
+    setAmpEnv(new Tone.Envelope({attack: ampEnvState.attack, decay: ampEnvState.decay, sustain: ampEnvState.sustain, release: ampEnvState.release}))
+
+    setOsc2(prevOsc => (
+      {
+        ...prevOsc,
+        detune: 12
+      }
+    ))
+  }
 
   return (
     <div className="App">
@@ -271,7 +310,7 @@ function App() {
 
           </fieldset>
 
-          {/* Filter  and LFO */}
+          {/* Filter and LFO */}
           <div className='ml-3'>
             {/* Filter module */}
             <fieldset className='synth-module flex'>
@@ -296,7 +335,17 @@ function App() {
             <Envelope attack={ampEnvState.attack} decay={ampEnvState.decay} sustain={ampEnvState.sustain} release={ampEnvState.release} handleAmpEnvChange={handleAmpEnvChange}/>
             {/* <Envelope attack={ampEnvState.attack} decay={ampEnvState.decay} sustain={ampEnvState.sustain} release={ampEnvState.release} handleAmpEnvChange={handleAmpEnvChange}/> */}
 
+            <PresetBank preset={preset} handleClick={(value) => selectPreset(value)}/>
 
+
+            <div className='flex flex-row mb-3 justify-between'>
+              <Sequencer ledState={ledState} handleRecClick={handleRecClick} handlePlayClick={handlePlayClick}/>
+
+              <button className={`${holdState ? 'bg-red-400' : 'bg-gray-400'} rounded-md px-3 border-solid border-black border-2 ml-3 transition-all duration-200 mr-40`} onClick={handleHoldStateChange}>HOLD</button>
+        
+            {/* <Oscilliscope analyzer={analyzer}/> */}
+            </div>
+            
           {/* end Amp envelope and lfo div */}
           </div>
 
@@ -304,13 +353,7 @@ function App() {
         {/* end osc mixer filter and lfo div */}
         </div>
 
-        <div className='flex flex-row mb-3 justify-between'>
-          <Sequencer ledState={ledState} handleRecClick={handleRecClick} handlePlayClick={handlePlayClick}/>
-
-          <button className={`${holdState ? 'bg-red-400' : 'bg-gray-400'} rounded-md px-3 border-solid border-black border-2 ml-3 transition-all duration-200 mr-40`} onClick={handleHoldStateChange}>HOLD</button>
         
-          <Oscilliscope analyzer={analyzer}/>
-        </div>
         
         
         {/* KEYBOARD */}
@@ -319,6 +362,9 @@ function App() {
 
       {/* end synth texture background div */}
       </div>
+
+      <button onClick={test1}>Test</button>
+      <button onClick={test2}>Test</button>
 
 
       <div className='flex flex-wrap'>

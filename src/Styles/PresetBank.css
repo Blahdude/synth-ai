@@ -1,0 +1,36 @@
+.button {
+  @apply px-4 rounded-sm text-white transition-all text-center mb-1 cursor-pointer border-solid border-black border-2;
+  height: 35px;
+  width: 40px;
+}
+
+.bank-title {
+  margin-top: 3px;
+  margin-bottom: -13px;
+}
+
+.preset-lcd {
+  font-family: 'Digital-7';
+  font-size: xx-large;
+  color: red;
+  background-color: black;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin-left: 40px;
+  border-radius: 10%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box; /* Ensure padding is included in width and height */
+  width: 55px; /* Fixed width */
+  height: 45px; /* Fixed height */
+}
+
+@font-face {
+  font-family: "Digital-7";
+  src: url(../fonts/digital-7.ttf) format('woff2'),
+       url(../fonts/digital-7.ttf) format('woff'),
+       url(../fonts/digital-7.ttf) format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
