@@ -8,6 +8,7 @@ import { KeyBoard } from './Components/KeyBoard';
 import { Sequencer } from './Components/Sequencer';
 import { Envelope } from './Components/Evnvelope';
 import { PresetBank } from './Components/PresetBank';
+import { NavBar } from './Components/NavBar';
 import { Oscilliscope } from './Components/Oscilloscope';
 import runMidi from './Midi';
 import { presetsBank } from './TempPresetStorage';
@@ -261,36 +262,10 @@ function App() {
     setLfoRate(selectedPreset.lfoRate)
   }
 
-  // const test1 = (value) => {
-  //   setFilterValue(presetsBank.bank1.filterValue)
-  //   setLfoRate(presetsBank.bank1.lfoRate)
-
-  //   setAmpEnvState(presetsBank.bank1.ampEnvState)
-
-  //   setAmpEnv(new Tone.Envelope({attack: ampEnvState.attack, decay: ampEnvState.decay, sustain: ampEnvState.sustain, release: ampEnvState.release}))
-
-  //   setOsc1(presetsBank.bank1.osc1)
-  //   setOsc2(presetsBank.bank1.osc2)
-  // }
-
-  // const test2 = () => {
-  //   setFilterValue(1000)
-  //   setLfoRate(5)
-
-  //   setAmpEnvState({attack: 10, decay: 2, sustain: 0.5, release: 10})
-
-  //   setAmpEnv(new Tone.Envelope({attack: ampEnvState.attack, decay: ampEnvState.decay, sustain: ampEnvState.sustain, release: ampEnvState.release}))
-
-  //   setOsc2(prevOsc => (
-  //     {
-  //       ...prevOsc,
-  //       detune: 12
-  //     }
-  //   ))
-  // }
-
   return (
     <div className="App">
+      <NavBar />
+
       <div className='textured-background rounded-xl py-20'>
 
       {/* SYNTH BODY */}
@@ -355,7 +330,7 @@ function App() {
             <PresetBank preset={preset} handleClick={(value) => selectPreset(value)}/>
 
 
-            <div className='flex flex-row mb-3 justify-between'>
+            <div className='flex flex-row mb-3 mt-3 justify-between'>
               <Sequencer ledState={ledState} handleRecClick={handleRecClick} handlePlayClick={handlePlayClick}/>
 
               <button className={`${holdState ? 'bg-red-400' : 'bg-gray-400'} rounded-md px-3 border-solid border-black border-2 ml-3 transition-all duration-200 mr-40`} onClick={handleHoldStateChange}>HOLD</button>

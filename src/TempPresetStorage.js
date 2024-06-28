@@ -6,12 +6,12 @@ export const presetsBank = {
       wave: "sawtooth", detune: 0, volume: -10
     },
     osc2: {
-      wave: "sawtooth", detune: 0, volume: -10
+      wave: "sawtooth", detune: 20, volume: -10
     },
     ampEnvState: {
-      attack: 1, decay: 1, sustain: 1, release: 0.1
+      attack: 1, decay: 1, sustain: 1, release: 3
     },
-    filterValue: 1500,
+    filterValue: 3500,
     lfoRate: 0
   },
 
@@ -53,7 +53,7 @@ export const presetsBank = {
     ampEnvState: {
       attack: 10, decay: 3, sustain: 0.4, release: 10
     },
-    filterValue: 10000,
+    filterValue: 4000,
     lfoRate: 2
   }
 }
