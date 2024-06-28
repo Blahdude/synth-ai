@@ -10,6 +10,7 @@ import { Envelope } from './Components/Evnvelope';
 import { PresetBank } from './Components/PresetBank';
 import { Oscilliscope } from './Components/Oscilloscope';
 import runMidi from './Midi';
+import { presetsBank } from './TempPresetStorage';
 
 function App() {
 
@@ -215,8 +216,16 @@ function App() {
       }
     ))
     // After AmpEnvState is Changed update the AmpEnv to the new values
-    setAmpEnv(new Tone.Envelope({attack: ampEnvState.attack, decay: ampEnvState.decay, sustain: ampEnvState.sustain, release: ampEnvState.release}))
+    
+    // currently not using since it is now updating through useEffect ------------
+    // setAmpEnv(new Tone.Envelope({attack: ampEnvState.attack, decay: ampEnvState.decay, sustain: ampEnvState.sustain, release: ampEnvState.release}))
   }
+
+  // Needed because of issue with preset bank
+  // preset bank would lag and update one behind the current selected preset
+  useEffect(() => {
+    setAmpEnv(new Tone.Envelope({attack: ampEnvState.attack, decay: ampEnvState.decay, sustain: ampEnvState.sustain, release: ampEnvState.release}))
+  }, [ampEnvState])
 
   // Init Midi once
   useEffect(() => {
@@ -236,41 +245,49 @@ function App() {
   });
 
   const selectPreset = (value) => {
-    console.log(value.target.value)
     setPreset(value.target.value)
+
+    const bankKey = `preset_${value.target.value}`
+    const selectedPreset = presetsBank[bankKey]
+
+    if (selectedPreset === undefined){ return }
+
+    setOsc1(selectedPreset.osc1)
+    setOsc2(selectedPreset.osc2)
+
+    setAmpEnvState(selectedPreset.ampEnvState)
+
+    setFilterValue(selectedPreset.filterValue)
+    setLfoRate(selectedPreset.lfoRate)
   }
 
-  const test1 = () => {
-    setFilterValue(500)
-    setLfoRate(11)
+  // const test1 = (value) => {
+  //   setFilterValue(presetsBank.bank1.filterValue)
+  //   setLfoRate(presetsBank.bank1.lfoRate)
 
-    setAmpEnvState({attack: 2, decay: 0, sustain: 1, release: 2})
+  //   setAmpEnvState(presetsBank.bank1.ampEnvState)
 
-    setAmpEnv(new Tone.Envelope({attack: ampEnvState.attack, decay: ampEnvState.decay, sustain: ampEnvState.sustain, release: ampEnvState.release}))
+  //   setAmpEnv(new Tone.Envelope({attack: ampEnvState.attack, decay: ampEnvState.decay, sustain: ampEnvState.sustain, release: ampEnvState.release}))
 
-    setOsc2(prevOsc => (
-      {
-        ...prevOsc,
-        detune: 14
-      }
-    ))
-  }
+  //   setOsc1(presetsBank.bank1.osc1)
+  //   setOsc2(presetsBank.bank1.osc2)
+  // }
 
-  const test2 = () => {
-    setFilterValue(1000)
-    setLfoRate(5)
+  // const test2 = () => {
+  //   setFilterValue(1000)
+  //   setLfoRate(5)
 
-    setAmpEnvState({attack: 10, decay: 2, sustain: 0.5, release: 10})
+  //   setAmpEnvState({attack: 10, decay: 2, sustain: 0.5, release: 10})
 
-    setAmpEnv(new Tone.Envelope({attack: ampEnvState.attack, decay: ampEnvState.decay, sustain: ampEnvState.sustain, release: ampEnvState.release}))
+  //   setAmpEnv(new Tone.Envelope({attack: ampEnvState.attack, decay: ampEnvState.decay, sustain: ampEnvState.sustain, release: ampEnvState.release}))
 
-    setOsc2(prevOsc => (
-      {
-        ...prevOsc,
-        detune: 12
-      }
-    ))
-  }
+  //   setOsc2(prevOsc => (
+  //     {
+  //       ...prevOsc,
+  //       detune: 12
+  //     }
+  //   ))
+  // }
 
   return (
     <div className="App">
@@ -321,7 +338,7 @@ function App() {
             </fieldset>
 
             {/* LFO module */}
-            <fieldset className='synth-module flex'>
+            <fieldset className='synth-module flex mt-1'>
               <legend>LFO</legend>
               <div className='m-auto'>
                 <CircleSlider value={lfoRate} onChange={handleLfoChange} min={0} max={20} showTooltip={true} stepSize={1} size={100} knobRadius={6} circleWidth={8} progressWidth={8} progressColor={"#4073db"} tooltipColor={"black"}/>
@@ -357,15 +374,14 @@ function App() {
         
         
         {/* KEYBOARD */}
-        <KeyBoard handleClick={(event) => handlePlayNote(event.target.value)} handleRelease={(event) => handleReleaseNote(event.target.value)} />
+        <div className='flex mt-2'>
+          <KeyBoard handleClick={(event) => handlePlayNote(event.target.value)} handleRelease={(event) => handleReleaseNote(event.target.value)} />
+        </div>
+        
       </fieldset>
 
       {/* end synth texture background div */}
       </div>
-
-      <button onClick={test1}>Test</button>
-      <button onClick={test2}>Test</button>
-
 
       <div className='flex flex-wrap'>
         <img src={"../Images/buh.gif"} className='cat-gif'></img>
