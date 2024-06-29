@@ -373,6 +373,8 @@ function App() {
         <img src={"../Images/huhcat.gif"} className='cat-gif'></img>
         <img src={"../Images/cateating.gif"} className='cat-gif'></img>
         <img src={"../Images/catBOOM.gif"} className='cat-gif'></img>
+        <h1 className='opacity-0 hover:opacity-100'>Ethan is so cute ❤️</h1>
+        <h1 className='opacity-0 hover:opacity-100'>Tj is so ugly 🤮</h1>
       </div>
 
     </div>
