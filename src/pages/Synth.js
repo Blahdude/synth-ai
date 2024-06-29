@@ -359,7 +359,7 @@ export const Synth = () => {
       {/* end synth texture background div */}
       </div>
 
-      <div className='flex flex-wrap'>
+      <div className='flex flex-wrap bg-slate-500'>
         <img src={"../Images/buh.gif"} className='cat-gif'></img>
         <img src={"../Images/buhhh.gif"} className='cat-gif'></img>
         <img src={"../Images/funny-cat.gif"} className='cat-gif'></img>

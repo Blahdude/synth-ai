@@ -1,6 +1,6 @@
 
 body {
-  @apply  font-mono font-semibold bg-gray-600;
+  @apply  font-mono font-semibold;
   /* bg-gradient-to-r from-cyan-500 to-blue-500 */
 
 }
