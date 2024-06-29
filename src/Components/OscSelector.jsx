@@ -21,7 +21,7 @@ export const OscSelector = (props) => {
         ></input>
         <label 
           htmlFor={`sawtooth${props.oscNum}`} 
-          className={`${props.oscWave === 'sawtooth' ? 'bg-red-700' : 'bg-red-500'} px-4 rounded-md text-white transition-all text-center mb-1 cursor-pointer`}>
+          className={`${props.oscWave === 'sawtooth' ? 'bg-red-700' : 'bg-red-500'} px-4 rounded-md text-white transition-all text-center mb-1 cursor-pointer ring-1 ring-black`}>
           Sawtooth 〽️
         </label>
         <br />
@@ -37,7 +37,7 @@ export const OscSelector = (props) => {
         ></input>
         <label 
           htmlFor={`sine${props.oscNum}`} 
-          className={`${props.oscWave === 'sine' ? 'bg-red-700' : 'bg-red-500'} px-4 rounded-md text-white transition-all text-center mb-1 cursor-pointer`}>
+          className={`${props.oscWave === 'sine' ? 'bg-red-700' : 'bg-red-500'} px-4 rounded-md text-white transition-all text-center mb-1 cursor-pointer ring-1 ring-black`}>
           Sine ∿
         </label>
         <br />
@@ -54,7 +54,7 @@ export const OscSelector = (props) => {
         ></input>
         <label 
           htmlFor={`square${props.oscNum}`} 
-          className={`${props.oscWave === 'square' ? 'bg-red-700' : 'bg-red-500'} px-4 rounded-md text-white transition-all text-center mb-1 cursor-pointer`}>
+          className={`${props.oscWave === 'square' ? 'bg-red-700' : 'bg-red-500'} px-4 rounded-md text-white transition-all text-center mb-1 cursor-pointer ring-1 ring-black`}>
           Square _⊓_
         </label>
         <br />

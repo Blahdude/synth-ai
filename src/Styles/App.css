@@ -1,6 +1,8 @@
 
 body {
-  @apply bg-gradient-to-r from-cyan-500 to-blue-500 font-mono font-semibold
+  @apply  font-mono font-semibold bg-gray-600;
+  /* bg-gradient-to-r from-cyan-500 to-blue-500 */
+
 }
 
 .synth-body {

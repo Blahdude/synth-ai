@@ -25,6 +25,7 @@
   box-sizing: border-box; /* Ensure padding is included in width and height */
   width: 55px; /* Fixed width */
   height: 45px; /* Fixed height */
+  @apply ring-2 ring-inset ring-slate-400
 }
 
 @font-face {

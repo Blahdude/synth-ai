@@ -11,6 +11,7 @@
     "react-circle-slider": "^1.6.2",
     "react-dom": "^18.3.1",
     "react-knob-headless": "^0.3.0",
+    "react-router-dom": "^6.24.0",
     "react-scripts": "5.0.1",
     "react-simple-knob": "^0.0.6",
     "tone": "^15.0.3",

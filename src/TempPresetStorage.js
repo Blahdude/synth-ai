@@ -55,5 +55,19 @@ export const presetsBank = {
     },
     filterValue: 4000,
     lfoRate: 2
+  },
+
+  preset_5: {
+    osc1: {
+      wave: "sawtooth", detune: -10, volume: -10
+    },
+    osc2: {
+      wave: "square", detune: 15, volume: -10
+    },
+    ampEnvState: {
+      attack: 0.1, decay: 1.5, sustain: 0.2, release: 3
+    },
+    filterValue: 2000,
+    lfoRate: 5
   }
 }
