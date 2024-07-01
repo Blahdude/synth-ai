@@ -1,7 +1,7 @@
 .paragraph-text {
   font-family: 'Poppins';
   font-size: medium;
-  @apply text-gray-200
+  @apply text-gray-200 mt-7 ml-10
 }
 
 .spacer {
@@ -17,5 +17,9 @@
 }
 
 .layer2 {
-  background-image: url(../svg/pink-violet.svg);
+  background-image: url(../svg/pink-sky.svg);
+}
+
+.layer3 {
+  background-image: url(../svg/pink-divider.svg);
 }

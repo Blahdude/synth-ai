@@ -12,6 +12,8 @@ import { NavBar } from '../Components/NavBar';
 import { Oscilliscope } from '../Components/Oscilloscope';
 import runMidi from '../Midi';
 import { presetsBank } from '../TempPresetStorage';
+import { Footer } from '../Components/Footer';
+
 
 export const Synth = () => {
 
@@ -113,6 +115,7 @@ export const Synth = () => {
       synth2.triggerAttack(event)
     }
   }
+  
   const handleReleaseNote = (event) => {
     // iff hold state is off release if not dont release notes
     if (!holdState){
@@ -377,7 +380,7 @@ export const Synth = () => {
         <h1 className='opacity-0 hover:opacity-100'>Ethan is so cute ❤️</h1>
         <h1 className='opacity-0 hover:opacity-100'>Tj is so ugly 🤮</h1>
       </div>
-
+      <Footer />
     </div>
   );
 }
