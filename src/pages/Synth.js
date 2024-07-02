@@ -11,7 +11,7 @@ import { PresetBank } from '../Components/PresetBank';
 import { NavBar } from '../Components/NavBar';
 import { Oscilliscope } from '../Components/Oscilloscope';
 import runMidi from '../Midi';
-import { presetsBank } from '../TempPresetStorage';
+import { presetsBank, testPutObject } from '../TempPresetStorage';
 import { Footer } from '../Components/Footer';
 
 
@@ -83,6 +83,7 @@ export const Synth = () => {
 
   // analyzer.getByteTimeDomainData(dataArray)
   // console.log(dataArray)
+
 
   const analyzer = new Tone.Analyser('fft', 2048)
   gainNode.connect(analyzer)
@@ -338,6 +339,8 @@ export const Synth = () => {
               <Sequencer ledState={ledState} handleRecClick={handleRecClick} handlePlayClick={handlePlayClick}/>
 
               <button className={`${holdState ? 'bg-red-400' : 'bg-gray-400'} rounded-md px-3 border-solid border-black border-2 ml-3 transition-all duration-200 mr-40`} onClick={handleHoldStateChange}>HOLD</button>
+
+              <button onClick={testPutObject}>TEst</button>
         
             {/* <Oscilliscope analyzer={analyzer}/> */}
             </div>

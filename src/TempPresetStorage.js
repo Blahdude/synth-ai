@@ -1,4 +1,13 @@
-// TEMPORARY UNTIL I CAN STORE A REAL BACKEND 
+const AWS = require('aws-sdk')
+//  ONLY HARD CODING KEYS AS ENVIORMENT VARIABLES ARE NOT WOKRING (IM DUMB)
+const s3 = new AWS.S3({
+  accessKeyId: 'NO KEY FOR YOU',
+  secretAccessKey: 'YOU NO GET MY KEY',
+  region: 'us-east-1'
+})
+
+const bucketName = 'reactsynthpresetstorage'
+const keyName = 'presetBank.json'
 
 export const presetsBank = {
   preset_1: {
@@ -70,4 +79,22 @@ export const presetsBank = {
     filterValue: 2000,
     lfoRate: 5
   }
+}
+
+const params = {
+  Bucket: bucketName,
+  Key: keyName,
+  Body: JSON.stringify(presetsBank),
+  ContentType: 'application/json'
+}
+
+export const testPutObject = () => {
+  s3.putObject(params, (err, data) => {
+    if (err) {
+      console.error('Error uploading data:', err)
+    }
+    else {
+      console.log('Successfully uploaded data to', bucketName + '/' + keyName)
+    }
+  })
 }
