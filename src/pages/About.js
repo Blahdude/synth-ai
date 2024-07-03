@@ -19,7 +19,7 @@ export const About = () => {
       <div className="spacer layer1"></div>
 
       <div className="bg-pink-600 flex flex-col">
-        <h1 className='py-20 m-auto text-gray-200 text-6xl'>Inspiration</h1>
+        <h1 className='py-20 m-auto text-gray-200 text-6xl -mt-16'>Inspiration</h1>
 
         {/* <img src="./Images/personal-synth-photo-nb.png"></img> */}
         <img src="./Images/personal-synth-photo.jpg" className='rounded-full w-2/3 m-auto border-solid border-2 border-slate-400'></img>
@@ -31,17 +31,36 @@ export const About = () => {
 
       <div className="flex flex-col bg-sky-950">
         <div className="spacer layer2"></div>
-        <h1 className="py-20 m-auto text-gray-200 text-6xl">In Depth Look</h1>
+        <h1 className="py-20 m-auto text-gray-200 text-6xl -mt-28">In Depth Look</h1>
 
         <div className="flex flex-row">
           <img src="../Images/OscSelectors.png" className="w-72 h-72 rounded-lg paragraph-text"></img>
           <h2 className="paragraph-text mr-36">Osc Selectors yeeah they do things yea so ciool!!sc Selectors yeeah they do things yea so ciool!!sc Selectors yeeah they do things yea so ciool!!sc Selectors yeeah they do things yea so ciool!!sc Selectors yeeah they do things yea so ciool!!sc Selectors yeeah they do things yea so ciool!!!!!</h2>
         </div>
 
-        <div className="spacer layer3"></div>
+        <div className="spacer-2 layer3"></div>
+
+        <div className="flex flex-row">
+          <img src="../Images/mixer-filter-lfo.png" className="rounded-lg paragraph-text"></img>
+          <h2 className="paragraph-text mr-36">Osc Selectors yeeah they do things yea so ciool!!sc Selectors yeeah they do things yea so ciool!!sc Selectors yeeah they do things yea so ciool!!sc Selectors yeeah they do things yea so ciool!!sc Selectors yeeah they do things yea so ciool!!sc Selectors yeeah they do things yea so ciool!!!!!</h2>
+        </div>
+
+        <div className="spacer-2 layer4"></div>
+
+        <div className="flex flex-row">
+          <img src="../Images/amp-envelope.png" className="rounded-lg paragraph-text"></img>
+          <h2 className="paragraph-text mr-36">Osc Selectors yeeah they do things yea so ciool!!sc Selectors yeeah they do things yea so ciool!!sc Selectors yeeah they do things yea so ciool!!sc Selectors yeeah they do things yea so ciool!!sc Selectors yeeah they do things yea so ciool!!sc Selectors yeeah they do things yea so ciool!!!!!</h2>
+        </div>
+
+        <div className="spacer-2 layer5"></div>
+
+        <div className="flex flex-row">
+          <img src="../Images/preset-sequencer-hold.png" className="rounded-lg paragraph-text"></img>
+          <h2 className="paragraph-text mr-36">Osc Selectors yeeah they do things yea so ciool!!sc Selectors yeeah they do things yea so ciool!!sc Selectors yeeah they do things yea so ciool!!sc Selectors yeeah they do things yea so ciool!!sc Selectors yeeah they do things yea so ciool!!sc Selectors yeeah they do things yea so ciool!!!!!</h2>
+        </div>
+
+
       </div>
-
-
       <div className='pt-24'></div>
       <Footer />
     </div>

@@ -15,6 +15,7 @@ export const Sequencer = (props) => {
       </div>
       <button className='sequencer-button' onClick={props.handleRecClick}>Rec</button>
       <button className="sequencer-button" onClick={props.handlePlayClick}>Play</button>
+      <button className="sequencer-button" onClick={props.handleStopClick}>Stop</button>
     </div>
   )
 }

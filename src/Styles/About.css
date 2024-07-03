@@ -12,6 +12,14 @@
   background-size: cover;
 }
 
+.spacer-2 {
+  aspect-ratio: 960/100;
+  width: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
 .layer1 {
   background-image: url(../svg/cyan-pink2.svg);
 }
@@ -23,3 +31,12 @@
 .layer3 {
   background-image: url(../svg/pink-divider.svg);
 }
+
+.layer4 {
+  background-image: url(../svg/pink-divider2.svg);
+}
+
+.layer5 {
+  background-image: url(../svg/pink-divider3.svg);
+}
+

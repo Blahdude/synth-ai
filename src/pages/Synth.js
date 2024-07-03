@@ -204,13 +204,23 @@ export const Synth = () => {
     setSequenceRecording(prevSequenceRecording => !prevSequenceRecording)
   }
 
+  let seq;
   const handlePlayClick = () => {
-    const seq = new Tone.Sequence((time, note) => {
+    seq = new Tone.Sequence((time, note) => {
       synth.triggerAttackRelease(note, 0.1, time);
       // subdivisions are given as subarrays
     }, sequence).start(0);
     Tone.Transport.start();
     ampEnv.triggerAttack()
+  }
+
+  const handleStopClick = () => {
+    if (seq) {
+      Tone.Transport.stop()
+      seq.stop()
+      seq.dispose()
+      seq = null
+    }
   }
 
   const handleAmpEnvChange = (name, value)  => {
@@ -268,10 +278,10 @@ export const Synth = () => {
   }
 
   return (
-    <div className="App">
+    <div className="App bg-sky-700 flex">
       <NavBar />
 
-      <div className='textured-background rounded-xl py-20'>
+      <div className='textured-background rounded-xl m-auto p-20 mt-40'>
 
       {/* SYNTH BODY */}
       <fieldset className='synth-body '> 
@@ -336,11 +346,11 @@ export const Synth = () => {
 
 
             <div className='flex flex-row mb-3 mt-3 justify-between'>
-              <Sequencer ledState={ledState} handleRecClick={handleRecClick} handlePlayClick={handlePlayClick}/>
+              <Sequencer ledState={ledState} handleRecClick={handleRecClick} handlePlayClick={handlePlayClick} handleStopClick={handleStopClick}/>
 
-              <button className={`${holdState ? 'bg-red-400' : 'bg-gray-400'} rounded-md px-3 border-solid border-black border-2 ml-3 transition-all duration-200 mr-40`} onClick={handleHoldStateChange}>HOLD</button>
+              <button className={`${holdState ? 'bg-red-400' : 'bg-gray-400'} rounded-md px-3 border-solid border-black border-2 ml-16 transition-all duration-200 mr-24`} onClick={handleHoldStateChange}>HOLD</button>
 
-              <button onClick={testPutObject}>TEst</button>
+              {/* <button onClick={testPutObject}>TEst</button> */}
         
             {/* <Oscilliscope analyzer={analyzer}/> */}
             </div>
@@ -365,24 +375,6 @@ export const Synth = () => {
       {/* end synth texture background div */}
       </div>
 
-      <div className='flex flex-wrap bg-slate-500'>
-        <img src={"../Images/buh.gif"} className='cat-gif'></img>
-        <img src={"../Images/buhhh.gif"} className='cat-gif'></img>
-        <img src={"../Images/funny-cat.gif"} className='cat-gif'></img>
-        <img src={"../Images/buh_upside_down.gif"} className='cat-gif'></img>
-        <img src={"../Images/catwaa.gif"} className='cat-gif'></img>
-        <img src={"../Images/crazycat.gif"} className='cat-gif'></img>
-        <img src={"../Images/buh2.gif"} className='cat-gif'></img>
-        <img src={"../Images/plink.gif"} className='cat-gif'></img>
-        <img src={"../Images/screamingcat.gif"} className='cat-gif'></img>
-        <img src={"../Images/happycat.gif"} className='cat-gif'></img>
-        <img src={"../Images/cat explode.gif"} className='cat-gif'></img>
-        <img src={"../Images/huhcat.gif"} className='cat-gif'></img>
-        <img src={"../Images/cateating.gif"} className='cat-gif'></img>
-        <img src={"../Images/catBOOM.gif"} className='cat-gif'></img>
-        <h1 className='opacity-0 hover:opacity-100'>Ethan is so cute ❤️</h1>
-        <h1 className='opacity-0 hover:opacity-100'>Tj is so ugly 🤮</h1>
-      </div>
       <Footer />
     </div>
   );

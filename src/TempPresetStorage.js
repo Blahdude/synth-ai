@@ -1,13 +1,14 @@
-const AWS = require('aws-sdk')
-//  ONLY HARD CODING KEYS AS ENVIORMENT VARIABLES ARE NOT WOKRING (IM DUMB)
-const s3 = new AWS.S3({
-  accessKeyId: 'NO KEY FOR YOU',
-  secretAccessKey: 'YOU NO GET MY KEY',
-  region: 'us-east-1'
-})
+// const AWS = require('aws-sdk')
+// //  ONLY HARD CODING KEYS AS ENVIORMENT VARIABLES ARE NOT WOKRING (IM DUMB)
+// const s3 = new AWS.S3({
+//   accessKeyId: 'NO KEY FOR YOU',
+//   secretAccessKey: 'YOU NO GET MY KEY',
+//   region: 'us-east-1'
+// })
 
-const bucketName = 'reactsynthpresetstorage'
-const keyName = 'presetBank.json'
+// console.log(process.env.AWS_ACCESS_KEY_ID)
+// const bucketName = 'reactsynthpresetstorage'
+// const keyName = 'presetBank.json'
 
 export const presetsBank = {
   preset_1: {
@@ -78,23 +79,37 @@ export const presetsBank = {
     },
     filterValue: 2000,
     lfoRate: 5
+  },
+
+  preset_6: {
+    osc1: {
+      wave: "sine", detune: 0, volume: -10
+    },
+    osc2: {
+      wave: "square", detune: 0, volume: -40
+    },
+    ampEnvState: {
+      attack: 0.1, decay: 1.5, sustain: 0, release: 1.5
+    },
+    filterValue: 4000,
+    lfoRate: 0
   }
 }
 
-const params = {
-  Bucket: bucketName,
-  Key: keyName,
-  Body: JSON.stringify(presetsBank),
-  ContentType: 'application/json'
-}
+// const params = {
+//   Bucket: bucketName,
+//   Key: keyName,
+//   Body: JSON.stringify(presetsBank),
+//   ContentType: 'application/json'
+// }
 
-export const testPutObject = () => {
-  s3.putObject(params, (err, data) => {
-    if (err) {
-      console.error('Error uploading data:', err)
-    }
-    else {
-      console.log('Successfully uploaded data to', bucketName + '/' + keyName)
-    }
-  })
-}
+// export const testPutObject = () => {
+//   s3.putObject(params, (err, data) => {
+//     if (err) {
+//       console.error('Error uploading data:', err)
+//     }
+//     else {
+//       console.log('Successfully uploaded data to', bucketName + '/' + keyName)
+//     }
+//   })
+// }
