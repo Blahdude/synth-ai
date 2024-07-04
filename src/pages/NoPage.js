@@ -1,10 +1,14 @@
 import { NavBar } from "../Components/NavBar";
+import { Link } from "react-router-dom";
 
 export const NoPage = () => {
   return (
-    <div>
+    <div className="flex flex-col">
       <NavBar />
-      <h1 className='py-48'>Error No Page</h1>
+      <img src="../Images/error-404.png" className="m-auto mt-24"></img>
+      <Link to='/home' className="m-auto bg-indigo-300 rounded-md border-4 border-slate-950 hover:bg-indigo-400 transition-all">
+        <img src="../Images/take-me-home.png"></img>
+      </Link>
     </div>
   )
 }

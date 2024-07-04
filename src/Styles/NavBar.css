@@ -1,5 +1,5 @@
 .text {
-  @apply hover:animate-pulse text-white text-2xl my-auto hover:cursor-pointer;
+  @apply text-white text-2xl my-auto hover:cursor-pointer hover:underline;
   font-family: "Poppins";
   font-weight: 400;
 }

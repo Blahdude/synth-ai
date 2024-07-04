@@ -299,10 +299,10 @@ export const Synth = () => {
             <legend className='font-semibold'>Mixer</legend>
             {/* detune div */}
             <div className='flex flex-col'>
-              <CircleSlider max={300} min={-300} showTooltip={true} value={osc1.detune} onChange={(value) => handleOscChange("osc1", "detune", value)} size={100} knobRadius={6} circleWidth={8} progressWidth={8} tooltipColor={"black"} progressColor={"#d13459"}/>
+              <CircleSlider max={400} min={-400} showTooltip={true} value={osc1.detune} onChange={(value) => handleOscChange("osc1", "detune", value)} size={100} knobRadius={6} circleWidth={8} progressWidth={8} tooltipColor={"black"} progressColor={"#d13459"}/>
               <h3 className='m-auto'>Detune 1</h3>
               {/* volume 2 */}
-              <CircleSlider max={300} min={-300} showTooltip={true} value={osc2.detune} onChange={(value) => handleOscChange("osc2", "detune", value)} size={100} knobRadius={6} circleWidth={8} progressWidth={8} tooltipColor={"black"} progressColor={"#d13459"}/>
+              <CircleSlider max={400} min={-400} showTooltip={true} value={osc2.detune} onChange={(value) => handleOscChange("osc2", "detune", value)} size={100} knobRadius={6} circleWidth={8} progressWidth={8} tooltipColor={"black"} progressColor={"#d13459"}/>
               <h3 className='m-auto'>Detune 2</h3>
             </div>
 
