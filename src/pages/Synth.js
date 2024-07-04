@@ -253,19 +253,23 @@ export const Synth = () => {
   // Init Midi once
   useEffect(() => {
     runMidi()
+
+    // listent for noteon event from midi.js
+    window.addEventListener('noteon', (event) => {
+      const { command, note, velocity, noteName } = event.detail;
+  
+      handlePlayNote(noteName)
+    });
+
+    // listen for noteoff event from midi.js
+    window.addEventListener('noteoff', (event) => {
+      const { command, note, velocity, noteName } = event.detail;
+
+      handleReleaseNote(noteName)
+    });
   }, [])
-  // listent for noteon event from midi.js
-  window.addEventListener('noteon', (event) => {
-    const { command, note, velocity, noteName } = event.detail;
+  
 
-    handlePlayNote(noteName)
-  });
-  // listen for noteoff event from midi.js
-  window.addEventListener('noteoff', (event) => {
-    const { command, note, velocity, noteName } = event.detail;
-
-    handleReleaseNote(noteName)
-  });
 
   const selectPreset = (value) => {
     setPreset(value.target.value)
