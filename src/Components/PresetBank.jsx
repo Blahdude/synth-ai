@@ -143,36 +143,6 @@ export const PresetBank = (props) => {
         className={`${props.preset === '9' ? 'bg-red-400' : 'bg-gray-400'} button`}>
       </label>
 
-      {/* <input
-        type='radio'
-        id='bank10'
-        name='preset-bank10'
-        value={10}
-        onChange={props.handleClick}
-        className="hidden peer" // hides button and sets it as a peer
-        checked={props.preset === "10"}
-      >
-      </input>
-      <label 
-        htmlFor={`bank10`} 
-        className={`${props.preset === '10' ? 'bg-red-400' : 'bg-gray-400'} button`}>
-      </label>
-
-      <input
-        type='radio'
-        id='bank11'
-        name='preset-bank11'
-        value={11}
-        onChange={props.handleClick}
-        className="hidden peer" // hides button and sets it as a peer
-        checked={props.preset === "11"}
-      >
-      </input>
-      <label 
-        htmlFor={`bank11`} 
-        className={`${props.preset === '11' ? 'bg-red-400' : 'bg-gray-400'} button`}>
-      </label> */}
-
       <div className="preset-lcd">
         <h1>{props.preset}</h1>
       </div>

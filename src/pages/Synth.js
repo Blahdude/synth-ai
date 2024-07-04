@@ -103,8 +103,8 @@ export const Synth = () => {
 
 
 
-
-
+  // keep track of how many notes are playing for envelope release
+  var notesCurrentlyPlaying = useRef(0)
   // handling click and release of the keyboard 
   const handlePlayNote = (event) => {
     if (sequenceRecording) {
@@ -114,15 +114,23 @@ export const Synth = () => {
       ampEnv.triggerAttack()
       synth.triggerAttack(event)
       synth2.triggerAttack(event)
+
+      notesCurrentlyPlaying += 1
     }
   }
   
   const handleReleaseNote = (event) => {
     // iff hold state is off release if not dont release notes
     if (!holdState){
-      ampEnv.triggerRelease()
       synth.triggerRelease(event)
       synth2.triggerRelease(event)
+
+      notesCurrentlyPlaying  -= 1
+      
+      // if there are no notes left playing then trigger the release
+      if (notesCurrentlyPlaying <= 0) {
+        ampEnv.triggerRelease()
+      }
     }
     else {
       // push the held note to the array so it can be released when the hold button is toggled again
