@@ -1,18 +1,16 @@
 import '../Styles/App.css';
+import * as Tone from "tone";
 import {useEffect, useRef, useState} from 'react'
 import { OscSelector } from '../Components/OscSelector';
 import { CircleSlider } from "react-circle-slider"
-// import { KnobHeadless } from 'react-knob-headless';
-import * as Tone from "tone";
 import { KeyBoard } from '../Components/KeyBoard';
 import { Sequencer } from '../Components/Sequencer';
 import { Envelope } from '../Components/Evnvelope';
 import { PresetBank } from '../Components/PresetBank';
 import { NavBar } from '../Components/NavBar';
-import { Oscilliscope } from '../Components/Oscilloscope';
-import runMidi from '../Midi';
-import { presetsBank, testPutObject } from '../TempPresetStorage';
+import { presetsBank } from '../TempPresetStorage';
 import { Footer } from '../Components/Footer';
+import runMidi from '../Midi';
 
 
 export const Synth = () => {
@@ -69,36 +67,8 @@ export const Synth = () => {
   synth.chain(filter, autoFilter, osc1Volume, gainNode)
   synth2.chain(filter, autoFilter, osc2Volume, gainNode)
 
-  // // web audio for oscilloscope
-  // const webAudioContext = Tone.getContext()
-  // const webAudioGain = webAudioContext.createGain()
-  // // connect tone.js gain node to web audio gain node
-  // gainNode.connect(webAudioGain)
-  // // create an analyzer
-  // const analyzer = webAudioContext.createAnalyser()
-  // analyzer.smoothingTimeConstant = 1
-  // analyzer.fftSize = 2048
-
-  // const dataArray = new Uint8Array(analyzer.frequencyBinCount);
-
-  // analyzer.getByteTimeDomainData(dataArray)
-  // console.log(dataArray)
-
-
   const analyzer = new Tone.Analyser('fft', 2048)
   gainNode.connect(analyzer)
-
-  // // Visualization function
-  // function draw() {
-  //   requestAnimationFrame(draw);
-
-  //   const fftValues = analyzer.getValue();
-  //   console.log(fftValues); // Log FFT data for debugging
-  // }
-
-  // draw();
-  
-
 
 
 
@@ -179,15 +149,6 @@ export const Synth = () => {
         [type]: value
       }))
     }
-    // setOsc(prevOsc => (
-    //   {
-    //     ...prevOsc,
-    //     [osc]: {
-    //       ...prevosc,
-    //        [type]: value
-    //     }
-    //   }
-    // ))
   }
 
   const handleFilterChange = (event) => {
@@ -238,10 +199,6 @@ export const Synth = () => {
         [name]: value
       }
     ))
-    // After AmpEnvState is Changed update the AmpEnv to the new values
-    
-    // currently not using since it is now updating through useEffect ------------
-    // setAmpEnv(new Tone.Envelope({attack: ampEnvState.attack, decay: ampEnvState.decay, sustain: ampEnvState.sustain, release: ampEnvState.release}))
   }
 
   // Needed because of issue with preset bank
@@ -352,7 +309,6 @@ export const Synth = () => {
           <div className='ml-3'>
             {/* envelope does not have a fieldset surrounding it since its already created in the Envelope component. this is incase there is another filter envelope made */}
             <Envelope attack={ampEnvState.attack} decay={ampEnvState.decay} sustain={ampEnvState.sustain} release={ampEnvState.release} handleAmpEnvChange={handleAmpEnvChange}/>
-            {/* <Envelope attack={ampEnvState.attack} decay={ampEnvState.decay} sustain={ampEnvState.sustain} release={ampEnvState.release} handleAmpEnvChange={handleAmpEnvChange}/> */}
 
             <PresetBank preset={preset} handleClick={(value) => selectPreset(value)}/>
 
@@ -361,8 +317,6 @@ export const Synth = () => {
               <Sequencer ledState={ledState} handleRecClick={handleRecClick} handlePlayClick={handlePlayClick} handleStopClick={handleStopClick}/>
 
               <button className={`${holdState ? 'bg-red-400' : 'bg-gray-400'} rounded-md px-3 border-solid border-black border-2 ml-16 transition-all duration-200 mr-24`} onClick={handleHoldStateChange}>HOLD</button>
-
-              {/* <button onClick={testPutObject}>TEst</button> */}
         
             {/* <Oscilliscope analyzer={analyzer}/> */}
             </div>
