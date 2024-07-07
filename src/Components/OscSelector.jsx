@@ -24,8 +24,8 @@ export const OscSelector = (props) => {
           className={`${props.oscWave === 'sawtooth' ? 'bg-red-700' : 'bg-red-500'} px-4 rounded-md text-white transition-all text-center mb-1 cursor-pointer ring-1 ring-black`}>
           Sawtooth 〽️
         </label>
-        <br />
-
+        {/* <br />  */}
+        {/* Why where there ever line breaks here? */}
         <input 
           type="radio"
           id={`sine${props.oscNum}`} // unique id
@@ -40,7 +40,7 @@ export const OscSelector = (props) => {
           className={`${props.oscWave === 'sine' ? 'bg-red-700' : 'bg-red-500'} px-4 rounded-md text-white transition-all text-center mb-1 cursor-pointer ring-1 ring-black`}>
           Sine ∿
         </label>
-        <br />
+        {/* <br /> */}
         {/*  〰️ ∿ */}
 
         <input 
@@ -57,7 +57,7 @@ export const OscSelector = (props) => {
           className={`${props.oscWave === 'square' ? 'bg-red-700' : 'bg-red-500'} px-4 rounded-md text-white transition-all text-center mb-1 cursor-pointer ring-1 ring-black`}>
           Square _⊓_
         </label>
-        <br />
+        {/* <br /> */}
       </div>
     </fieldset>
   )
