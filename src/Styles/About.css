@@ -4,6 +4,10 @@
   @apply text-gray-200 mt-7 ml-10
 }
 
+.info-container {
+  @apply flex flex-row mx-96
+}
+
 .spacer {
   aspect-ratio: 960/300;
   width: 100%;
