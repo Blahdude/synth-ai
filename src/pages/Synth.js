@@ -226,8 +226,6 @@ export const Synth = () => {
     });
   }, [])
   
-
-
   const selectPreset = (value) => {
     setPreset(value.target.value)
 
@@ -312,35 +310,23 @@ export const Synth = () => {
 
             <PresetBank preset={preset} handleClick={(value) => selectPreset(value)}/>
 
-
             <div className='flex flex-row mb-3 mt-3 justify-between'>
               <Sequencer ledState={ledState} handleRecClick={handleRecClick} handlePlayClick={handlePlayClick} handleStopClick={handleStopClick}/>
 
               <button className={`${holdState ? 'bg-red-400' : 'bg-gray-400'} rounded-md px-3 border-solid border-black border-2 ml-16 transition-all duration-200 mr-24`} onClick={handleHoldStateChange}>HOLD</button>
-        
-            {/* <Oscilliscope analyzer={analyzer}/> */}
-            </div>
-            
+            </div>         
           {/* end Amp envelope and lfo div */}
           </div>
-
-
         {/* end osc mixer filter and lfo div */}
         </div>
 
-        
-        
-        
         {/* KEYBOARD */}
         <div className='flex mt-2'>
           <KeyBoard handleClick={(event) => handlePlayNote(event.target.value)} handleRelease={(event) => handleReleaseNote(event.target.value)} />
         </div>
-        
       </fieldset>
-
       {/* end synth texture background div */}
       </div>
-
       <Footer />
     </div>
   );
