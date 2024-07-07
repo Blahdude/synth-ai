@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Router } from "react-router-dom";
 import { Synth } from './pages/Synth'
 import { About } from "./pages/About";
 import { NoPage } from "./pages/NoPage";
+import { Analytics } from "@vercel/analytics/react"
 
 export default function App() {
 
@@ -16,6 +17,8 @@ export default function App() {
           <Route path="*" element={<NoPage />} />
         </Routes>
       </BrowserRouter>
+      {/* Vercel Analytics */}
+      <Analytics /> 
     </div>
   )
 }
