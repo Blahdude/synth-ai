@@ -31,3 +31,11 @@ OPENAI_API_KEY=your_openai_api_key_here
 
 cd ../client
 npm install
+
+Check out the original live synth with no AI support https://react-synth.vercel.app/home
+
+Midi Support
+
+USB Midi is supported! But it is a work in progress…
+
+⚠️ Be wary using USB Midi as it can and will bug out and get VERY loud ⚠️
