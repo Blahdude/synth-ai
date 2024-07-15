@@ -32,6 +32,11 @@ OPENAI_API_KEY=your_openai_api_key_here
 
 cd ../client
 npm install
+cd ..
+npm install
+
+# Run both the backend and frontend
+npm run dev
 ```
 
 Check out the original live synth with no AI support https://react-synth.vercel.app/home
