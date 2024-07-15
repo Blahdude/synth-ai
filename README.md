@@ -1,7 +1,7 @@
 # AI Synth! Type sound requests into chat and it will automatically create your desired sounds!
 ### Created by Oliver Camp (Built on top of Max Haviv--React Synth)
 
-<img width="1440" alt="Screenshot 2024-07-15 at 1 47 38 AM" src="https://github.com/user-attachments/assets/b176b028-c1d9-4cf8-8733-7e370c86118c">
+<img width="1440" alt="Screenshot 2024-07-15 at 1 47 38 AM" src="https://github.com/user-attachments/assets/b176b028-c1d9-4cf8-8733-7e370c86118c">
 
 This synth aims to ease the process of finding the optimal sound through AI. Describe your desired sound to the AI (ChatGPT), and it will automatically adjust the synth with parameters that match your description.
 
@@ -16,7 +16,7 @@ Before you begin, ensure you have the following installed:
 
 ### 1. Clone the Repository
 
-# First, clone the repository to your local machine:
+First, clone the repository to your local machine:
 
 ```bash
 git clone https://github.com/yourusername/my-project.git
@@ -31,12 +31,3 @@ OPENAI_API_KEY=your_openai_api_key_here
 
 cd ../client
 npm install
-
-```bash
-
-### Check out the original live synth with no AI support <https://react-synth.vercel.app/home>
-
-## Midi Support
-USB Midi is supported! But it is a work in progress...
-
-⚠️ Be wary using USB Midi as it can and will bug out and get VERY loud ⚠️
