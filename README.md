@@ -32,6 +32,8 @@ OPENAI_API_KEY=your_openai_api_key_here
 cd ../client
 npm install
 
+bash```
+
 ### Check out the original live synth with no AI support <https://react-synth.vercel.app/home>
 
 ## Midi Support
