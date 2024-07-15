@@ -20,7 +20,7 @@ Before you begin, ensure you have the following installed:
 # First, clone the repository to your local machine:
 
 git clone git@github.com:Blahdude/synth-ai.git
-cd my-project
+cd synth-ai
 
 
 # Navigate to the server directory and install the dependencies:
