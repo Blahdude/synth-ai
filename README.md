@@ -14,23 +14,28 @@ Before you begin, ensure you have the following installed:
 - [Node.js](https://nodejs.org/) (which includes npm)
 - [Git](https://git-scm.com/)
 
-### 1. Clone the Repository
+# Clone the Repository
 
 First, clone the repository to your local machine:
 
 ```bash
 git clone https://github.com/yourusername/my-project.git
 cd my-project
+```
 
 # Navigate to the server directory and install the dependencies:
+```bash
 cd server
 npm install
+```
 
 # Create a .env file in the server directory and add your environment variables (e.g., your OpenAI API key):
+```bash
 OPENAI_API_KEY=your_openai_api_key_here
 
 cd ../client
 npm install
+```
 
 Check out the original live synth with no AI support https://react-synth.vercel.app/home
 
