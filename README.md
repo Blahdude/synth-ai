@@ -1,7 +1,7 @@
 # AI Synth! Type sound requests into chat and it will automatically create your desired sounds!
 ### Created by Oliver Camp (Built on top of Max Haviv--React Synth)
 
-![current_synth_photo-github](<img width="1440" alt="Screenshot 2024-07-15 at 1 47 38 AM" src="https://github.com/user-attachments/assets/ebd3b0bf-f069-45ad-8d05-6f89e56e8319">)
+<img width="1440" alt="Screenshot 2024-07-15 at 1 47 38 AM" src="https://github.com/user-attachments/assets/b176b028-c1d9-4cf8-8733-7e370c86118c">
 
 This App aims to ease the process of finding the optimal sound through AI.
 
