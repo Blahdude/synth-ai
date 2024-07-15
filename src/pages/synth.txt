@@ -379,7 +379,7 @@ export const Synth = () => {
 	};
 
   return (
-    <div className="App flex">
+    <div className="App bg-sky-700 flex">
 
       <div className='textured-background rounded-xl m-auto p-10 mt-10'>
 
