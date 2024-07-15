@@ -3,7 +3,7 @@
 
 <img width="1440" alt="Screenshot 2024-07-15 at 1 47 38 AM" src="https://github.com/user-attachments/assets/b176b028-c1d9-4cf8-8733-7e370c86118c">
 
-This App aims to ease the process of finding the optimal sound through AI.
+This synth aims to ease the process of finding the optimal sound through AI.
 
 ### Check out the original live synth with no AI support <https://react-synth.vercel.app/home>
 
