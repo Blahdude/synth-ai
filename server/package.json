@@ -1,0 +1,17 @@
+{
+	"name": "synth-project-server",
+	"version": "0.1.0",
+	"private": true,
+	"dependencies": {
+	  "express": "^4.18.2",
+	  "cors": "^2.8.5",
+	  "dotenv": "^16.0.3",
+	  "gpt-turbo": "^1.6.0"
+	},
+	"devDependencies": {
+	  "nodemon": "^2.0.21"
+	},
+	"scripts": {
+	  "start": "nodemon server/index.js"
+	}
+  }

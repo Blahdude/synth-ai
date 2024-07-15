@@ -1,16 +1,16 @@
 import '../Styles/App.css';
 import * as Tone from "tone";
 import {useEffect, useRef, useState} from 'react'
-import { OscSelector } from '../Components/OscSelector';
+import { OscSelector } from '../Components/OscSelector.jsx';
 import { CircleSlider } from "react-circle-slider"
-import { KeyBoard } from '../Components/KeyBoard';
-import { Sequencer } from '../Components/Sequencer';
-import { Envelope } from '../Components/Evnvelope';
-import { PresetBank } from '../Components/PresetBank';
-import { presetsBank } from '../TempPresetStorage';
-import runMidi from '../Midi';
+import { KeyBoard } from '../Components/KeyBoard.jsx';
+import { Sequencer } from '../Components/Sequencer.jsx';
+import { Envelope } from '../Components/Evnvelope.jsx';
+import { PresetBank } from '../Components/PresetBank.jsx';
+import { presetsBank } from '../TempPresetStorage.js';
+import runMidi from '../Midi.js';
 import axios from 'axios';
-import config from './config';
+import config from './config.js';
 import ChatBubble from '../Components/ChatBubble.js';
 import ChatInput from '../Components/ChatInput.js';
 import './App.css';
