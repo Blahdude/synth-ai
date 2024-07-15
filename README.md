@@ -19,7 +19,7 @@ Before you begin, ensure you have the following installed:
 ```bash
 # First, clone the repository to your local machine:
 
-git clone https://github.com/yourusername/my-project.git
+git clone git@github.com:Blahdude/synth-ai.git
 cd my-project
 
 
