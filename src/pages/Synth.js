@@ -9,7 +9,7 @@ import { Envelope } from '../Components/Evnvelope';
 import { PresetBank } from '../Components/PresetBank';
 import { NavBar } from '../Components/NavBar';
 import { presetsBank } from '../TempPresetStorage';
-import { Footer } from '../Components/Footer';
+import ChatBox from '../Components/ChatBox';
 import runMidi from '../Midi';
 
 
@@ -27,6 +27,114 @@ export const Synth = () => {
 
   // envelope NIGHTMARE NEED TO FIX THIS IS TEMPORARILY UGLY AND HORRIBLE!!!!!
   const [ampEnvState, setAmpEnvState] = useState({attack: 0.1, decay: 1, sustain: 1, release: 0.1})
+
+  // handle change for osc1 and osc2 state varables
+  const handleOscChange = (osc, type, value) => {
+    if (osc == "osc1"){
+      setOsc1(prevOsc => ({
+        ...prevOsc,
+        [type]: value
+      }))
+    }
+    else{
+      setOsc2(prevOsc => ({
+        ...prevOsc,
+        [type]: value
+      }))
+    }
+  }
+
+  const handleUserInput = (input) => {
+    const params = input.split(';').reduce((acc, param) => {
+      const [key, value] = param.split(':').map(s => s.trim());
+      if (key && value) {
+        acc[key] = value;
+      }
+      return acc;
+    }, {});
+  
+    if (params.wave1) {
+      setOsc1(prevOsc => ({
+        ...prevOsc,
+        wave: params.wave1
+      }));
+    }
+  
+    if (params.detune1) {
+      setOsc1(prevOsc => ({
+        ...prevOsc,
+        detune: parseFloat(params.detune1)
+      }));
+    }
+  
+    if (params.volume1) {
+      setOsc1(prevOsc => ({
+        ...prevOsc,
+        volume: parseFloat(params.volume1)
+      }));
+    }
+  
+    if (params.wave2) {
+      setOsc2(prevOsc => ({
+        ...prevOsc,
+        wave: params.wave2
+      }));
+    }
+  
+    if (params.detune2) {
+      setOsc2(prevOsc => ({
+        ...prevOsc,
+        detune: parseFloat(params.detune2)
+      }));
+    }
+  
+    if (params.volume2) {
+      setOsc2(prevOsc => ({
+        ...prevOsc,
+        volume: parseFloat(params.volume2)
+      }));
+    }
+  
+    if (params.filter) {
+      setFilterValue(parseFloat(params.filter));
+    }
+  
+    if (params.lfo) {
+      setLfoRate(parseFloat(params.lfo));
+    }
+  
+    if (params.attack) {
+      setAmpEnvState(prevState => ({
+        ...prevState,
+        attack: parseFloat(params.attack)
+      }));
+    }
+  
+    if (params.decay) {
+      setAmpEnvState(prevState => ({
+        ...prevState,
+        decay: parseFloat(params.decay)
+      }));
+    }
+  
+    if (params.sustain) {
+      setAmpEnvState(prevState => ({
+        ...prevState,
+        sustain: parseFloat(params.sustain)
+      }));
+    }
+  
+    if (params.release) {
+      setAmpEnvState(prevState => ({
+        ...prevState,
+        release: parseFloat(params.release)
+      }));
+    }
+  
+    console.log(params);
+  };
+  
+  // Add this function where you have other hooks and functions in the Synth component
   
   let ampEnvv = new Tone.Envelope({attack: 0.1, decay: 1, sustain: 1, release: 0.1})
   const [ampEnv, setAmpEnv] = useState(ampEnvv)
@@ -132,23 +240,6 @@ export const Synth = () => {
       synth2.triggerRelease(element)
     });
     heldNotesArray.current = []
-  }
-
-
-  // handle change for osc1 and osc2 state varables
-  const handleOscChange = (osc, type, value) => {
-    if (osc == "osc1"){
-      setOsc1(prevOsc => ({
-        ...prevOsc,
-        [type]: value
-      }))
-    }
-    else{
-      setOsc2(prevOsc => ({
-        ...prevOsc,
-        [type]: value
-      }))
-    }
   }
 
   const handleFilterChange = (event) => {
@@ -326,8 +417,8 @@ export const Synth = () => {
         </div>
       </fieldset>
       {/* end synth texture background div */}
+      <ChatBox handleUserInput={handleUserInput}/>
       </div>
-      <Footer />
     </div>
   );
 }

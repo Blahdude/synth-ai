@@ -1,7 +1,6 @@
 import React from "react";
 import { NavBar } from "../Components/NavBar";
 import '../Styles/About.css'
-import { Footer } from "../Components/Footer";
 
 // https://app.haikei.app/
 // super cool svg dividers
@@ -64,7 +63,6 @@ export const About = () => {
 
       </div>
       <div className='pt-32 bg-sky-950'></div>
-      <Footer />
     </div>
     
   )
