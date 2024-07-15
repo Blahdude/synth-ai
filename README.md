@@ -16,17 +16,17 @@ Before you begin, ensure you have the following installed:
 
 ### 1. Clone the Repository
 
-First, clone the repository to your local machine:
+# First, clone the repository to your local machine:
 
 ```bash
 git clone https://github.com/yourusername/my-project.git
 cd my-project
 
-Navigate to the server directory and install the dependencies:
+# Navigate to the server directory and install the dependencies:
 cd server
 npm install
 
-Create a .env file in the server directory and add your environment variables (e.g., your OpenAI API key):
+# Create a .env file in the server directory and add your environment variables (e.g., your OpenAI API key):
 OPENAI_API_KEY=your_openai_api_key_here
 
 cd ../client
