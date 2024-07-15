@@ -5,7 +5,7 @@
 
 This synth aims to ease the process of finding the optimal sound through AI. Describe your desired sound to the AI (ChatGPT), and it will automatically adjust the synth with parameters that match your description.
 
-## Getting Started
+# Getting Started
 
 ## Prerequisites
 
@@ -14,7 +14,7 @@ Before you begin, ensure you have the following installed:
 - [Node.js](https://nodejs.org/) (which includes npm)
 - [Git](https://git-scm.com/)
 
-# Steps
+## Steps
 
 ```bash
 # First, clone the repository to your local machine:
