@@ -1,7 +1,5 @@
 import React from "react";
-import { CircleSlider } from "react-circle-slider"
 import '../Styles/App.css'
-import { useState } from "react";
 
 export const OscSelector = (props) => {
 

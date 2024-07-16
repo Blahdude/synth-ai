@@ -30,7 +30,7 @@ function handleInput(input) {
 
   const eventDetail = { command, note, velocity, noteName: noteMap.get(note) };
 
-  if (command == 144){
+  if (command === 144){
     noteOn(eventDetail)
   }
   else {

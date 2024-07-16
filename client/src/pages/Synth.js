@@ -1,6 +1,6 @@
 import '../Styles/App.css';
 import * as Tone from "tone";
-import {useEffect, useRef, useState} from 'react'
+import { useEffect, useRef, useState, useCallback, useMemo } from 'react';
 import { OscSelector } from '../Components/OscSelector.jsx';
 import { CircleSlider } from "react-circle-slider"
 import { KeyBoard } from '../Components/KeyBoard.jsx';
@@ -33,7 +33,7 @@ export const Synth = () => {
 
   // handle change for osc1 and osc2 state varables
   const handleOscChange = (osc, type, value) => {
-    if (osc == "osc1"){
+    if (osc === "osc1"){
       setOsc1(prevOsc => ({
         ...prevOsc,
         [type]: value
@@ -149,20 +149,19 @@ export const Synth = () => {
 
   const [preset, setPreset] = useState(0)
 
-  // oscillator 1
-  const synth = new Tone.PolySynth(Tone.Synth, {
+  const synth = useMemo(() => new Tone.PolySynth(Tone.Synth, {
     oscillator: {
       type: osc1.wave,
       detune: osc1.detune
     }
-  })
-  // // oscillator 2
-  const synth2 = new Tone.PolySynth(Tone.Synth ,{
+  }), [osc1.wave, osc1.detune]);
+  
+  const synth2 = useMemo(() => new Tone.PolySynth(Tone.Synth, {
     oscillator: {
       type: osc2.wave,
       detune: osc2.detune
     }
-  })
+  }), [osc2.wave, osc2.detune]);
 
   const filter = new Tone.Filter(filterValue, "lowpass")
   // filter with connected lfo
@@ -187,37 +186,32 @@ export const Synth = () => {
   // keep track of how many notes are playing for envelope release
   var notesCurrentlyPlaying = useRef(0)
   // handling click and release of the keyboard 
-  const handlePlayNote = (event) => {
+  const handlePlayNote = useCallback((event) => {
     if (sequenceRecording) {
       setSequence(prevSequence => ([...prevSequence, event]));
-    }
-    else {
-      ampEnv.triggerAttack()
-      synth.triggerAttack(event)
-      synth2.triggerAttack(event)
-
-      notesCurrentlyPlaying += 1
-    }
-  }
+    } else {
+      ampEnv.triggerAttack();
+      synth.triggerAttack(event);
+      synth2.triggerAttack(event);
   
-  const handleReleaseNote = (event) => {
-    // iff hold state is off release if not dont release notes
-    if (!holdState){
-      synth.triggerRelease(event)
-      synth2.triggerRelease(event)
-
-      notesCurrentlyPlaying  -= 1
-      
-      // if there are no notes left playing then trigger the release
-      if (notesCurrentlyPlaying <= 0) {
-        ampEnv.triggerRelease()
+      notesCurrentlyPlaying.current += 1;
+    }
+  }, [sequenceRecording, ampEnv, synth, synth2, notesCurrentlyPlaying]);
+  
+  const handleReleaseNote = useCallback((event) => {
+    if (!holdState) {
+      synth.triggerRelease(event);
+      synth2.triggerRelease(event);
+  
+      notesCurrentlyPlaying.current -= 1;
+  
+      if (notesCurrentlyPlaying.current <= 0) {
+        ampEnv.triggerRelease();
       }
+    } else {
+      heldNotesArray.current.push(event);
     }
-    else {
-      // push the held note to the array so it can be released when the hold button is toggled again
-      heldNotesArray.current.push(event)
-    }
-  }
+  }, [holdState, synth, synth2, notesCurrentlyPlaying, ampEnv, heldNotesArray]);
   
   const handleHoldStateChange = () => {
     // if hold is currently false which means you are now turning hold on
@@ -258,7 +252,7 @@ export const Synth = () => {
   // if the reccoring button was untoggled then now toggled, reset the sequence
   const handleRecClick = () => {
     // if turing rec on set init sequence to empty array
-    if (sequenceRecording == false) {
+    if (sequenceRecording === false) {
       setSequence([])
     }
     // change led on or off
@@ -303,22 +297,26 @@ export const Synth = () => {
 
   // Init Midi once
   useEffect(() => {
-    runMidi()
-
-    // listent for noteon event from midi.js
-    window.addEventListener('noteon', (event) => {
-      const { command, note, velocity, noteName } = event.detail;
+    runMidi();
   
-      handlePlayNote(noteName)
-    });
-
-    // listen for noteoff event from midi.js
-    window.addEventListener('noteoff', (event) => {
-      const { command, note, velocity, noteName } = event.detail;
-
-      handleReleaseNote(noteName)
-    });
-  }, [])
+    const onNoteOn = (event) => {
+      const { noteName } = event.detail;
+      handlePlayNote(noteName);
+    };
+  
+    const onNoteOff = (event) => {
+      const { noteName } = event.detail;
+      handleReleaseNote(noteName);
+    };
+  
+    window.addEventListener('noteon', onNoteOn);
+    window.addEventListener('noteoff', onNoteOff);
+  
+    return () => {
+      window.removeEventListener('noteon', onNoteOn);
+      window.removeEventListener('noteoff', onNoteOff);
+    };
+  }, [handlePlayNote, handleReleaseNote]);
   
   const selectPreset = (value) => {
     setPreset(value.target.value)
