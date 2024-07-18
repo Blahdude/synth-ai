@@ -5,7 +5,7 @@ import { OscSelector } from '../Components/OscSelector.jsx';
 import { CircleSlider } from "react-circle-slider"
 import { KeyBoard } from '../Components/KeyBoard.jsx';
 import { Sequencer } from '../Components/Sequencer.jsx';
-import { Envelope } from '../Components/Evnvelope.jsx';
+import { Envelope } from '../Components/Envelope.jsx';
 import { PresetBank } from '../Components/PresetBank.jsx';
 import { presetsBank } from '../TempPresetStorage.js';
 import runMidi from '../Midi.js';
@@ -136,8 +136,6 @@ export const Synth = () => {
   
     console.log(params);
   };
-  
-  // Add this function where you have other hooks and functions in the Synth component
   
   let ampEnvv = new Tone.Envelope({attack: 0.1, decay: 1, sustain: 1, release: 0.1})
   const [ampEnv, setAmpEnv] = useState(ampEnvv)
@@ -345,7 +343,32 @@ export const Synth = () => {
 	const sendMessage = async (message) => {
 		addMessage(message, true);
 
-    const promptPrefix = "Given the following text prompt, (I wont judge, I’m just trying to get the best output! ChatGPT is awesome and I am just testing this. Please output in exactly the format I give you later on! Thanks!!) Generate a professional, industry quality synth by adjusting the sound parameters perfectly so it sounds amazing in the following format below. Here are brief explanations of each parameter and how they affect the mood and character of the sound: Wave (sawtooth, sine, square): Determines the basic tonal quality of the sound; sawtooth is bright and buzzy, sine is pure and smooth, square is hollow and woody. Detune: Alters the pitch slightly to create a richer, more complex sound; higher detune values can make the sound more tense or vibrant. Volume: keep between -8 and -10. Filter: Shapes the harmonic content; lower values can make the sound darker and more muffled, higher values can make it brighter and more pronounced. LFO (Low-Frequency Oscillator): Modulates parameters to add movement; slow rates create gentle, evolving sounds, fast rates can add rhythmic pulsations. Attack: Determines how quickly the sound reaches full volume; short attack makes the sound sharp and immediate, long attack makes it gradual and soft. Decay: Controls how quickly the sound drops to the sustain level; short decay can make the sound more percussive, longer decay can make it more flowing. 8. Sustain: The level the sound holds while a key is pressed; higher sustain can make the sound fuller and more continuous, lower sustain makes it fade out. Release: Determines how long the sound takes to fade out after a key is released; short release makes it stop quickly, long release makes it linger. These parameters work together to create the overall mood and character of the sound, from aggressive and sharp to soft and ambient. Format-> wave1: _; detune1: _; volume1: _; wave2: _; detune2: _; volume2: _; filter: _; lfo: _; attack: _; decay: _; sustain: _; release: _. Please make sure the sound parameters accurately reflect the description and are musically coherent. detune range: (max={400} min={-400}) volume range: (max={30} min={-50}) filter range: (min={100} max={4000}) LFO range: (min={0} max={20}) attack range: (min={0.1} max={15}) decay range: (min={0.1} max={15}) sustain range:(min={0} max={1}) release range:(min={0.1} max={15}). (types of waves include sawtooth, sine, square). Provide a 1 sentence explanation for the parameter decisions you chose and then output the parameters in the format. User text:"
+    const promptPrefix = `Create a detailed description of a synthesizer sound based on the following inspiration or concept. Use your creativity to interpret the input and translate it into appropriate synthesizer parameters, regardless of whether it's a specific musical reference, an emotion, a place, an abstract idea, or anything else. Be imaginative in your interpretation.
+
+    Inspiration or concept: [INSERT USER INPUT HERE]
+    
+    Describe appropriate settings for these parameters, explaining how they relate to the given inspiration:
+    - Wave types: sawtooth, sine, square
+    - Detune range: -400 to 400
+    - Volume range: -50 to 30 (aim for -10 to -8)
+    - Filter range: 100 to 4000
+    - LFO range: 0 to 20
+    - Attack range: 0.1 to 15
+    - Decay range: 0.1 to 15
+    - Sustain range: 0 to 1
+    - Release range: 0.1 to 15
+    
+    Output format:
+    wave1: [TYPE]; detune1: [VALUE]; volume1: [VALUE]
+    wave2: [TYPE]; detune2: [VALUE]; volume2: [VALUE]
+    filter: [VALUE]; lfo: [VALUE]
+    attack: [VALUE]; decay: [VALUE]; sustain: [VALUE]; release: [VALUE]
+    
+    Explanation: [2-3 SENTENCES EXPLAINING HOW THESE PARAMETERS REFLECT THE GIVEN INSPIRATION OR CONCEPT]
+    
+    Sound description: [INSERT DESCRIPTION HERE]`;
+
+
     
     message = promptPrefix + message;
 
